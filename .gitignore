@@ -22,3 +22,6 @@ nanobot/
 
 # Planning artifacts
 plan.json
+
+# Test results
+test-results/.last-run.json
