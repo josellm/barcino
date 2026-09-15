@@ -1,7 +1,7 @@
 import { renderIntroScreen } from './components/IntroScreen.js';
 import { renderTeamRegistrationScreen } from './components/TeamRegistrationScreen.js';
 import { renderMission0Screen } from './components/Mission0Screen.js';
-import { getGameState, setTeamName, advanceStage, setStage } from './gameState.js';
+import { getGameState, setTeamName, advanceStage } from './gameState.js';
 
 function render() {
   const app = document.getElementById('app');
