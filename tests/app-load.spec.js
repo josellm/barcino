@@ -8,12 +8,16 @@ test.describe('app-load smoke test', () => {
     page.on('pageerror', (error) => errors.push(error));
     page.on('consoleerror', (message) => errors.push(message));
 
-    await page.goto('http://localhost:3000', { waitUntil: 'networkidle' });
+    await page.goto('http://localhost:8080', { waitUntil: 'networkidle' });
 
     // No runtime errors should have been emitted during load.
     expect(errors).toEqual([]);
 
-    // The #app root element must contain rendered child elements.
+    // The start button must be present and clickable.
+    await expect(page.locator('#btn-start')).toBeVisible();
+    await page.click('#btn-start');
+
+    // After starting, the #app root element must contain rendered child elements.
     await expect(page.locator('#app')).not.toBeEmpty();
     expect(await page.locator('#app').count()).toBeGreaterThan(0);
     expect(

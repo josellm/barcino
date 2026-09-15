@@ -6,7 +6,7 @@ usage() {
   exit 1
 }
 
-case "${1:-}" in
+case "${1:-smoke-test}" in
   smoke-test|test)
     npm run test:smoke
     exit $?

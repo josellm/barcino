@@ -47,3 +47,5 @@ const gameStateModule = (() => {
     advanceStage
   };
 })();
+
+export const { getGameState, setTeamName, saveToLocalStorage, loadFromLocalStorage, advanceStage } = gameStateModule;
