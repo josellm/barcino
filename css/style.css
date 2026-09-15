@@ -314,6 +314,13 @@ body {
   color: #2b1d0c;
 }
 
+/* Validation error message inside the parchment form */
+.parchment-content .error {
+  color: #d32f2f;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
 /* CTA button styled inside the parchment content */
 .parchment-content .cta-button {
   display: block;
