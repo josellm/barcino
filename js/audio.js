@@ -119,6 +119,14 @@ class AudioController {
       this.audio.muted = this.muted;
     }
     localStorage.setItem('audioMuted', String(this.muted));
+
+    // If we just unmuted and the audio source was never loaded
+    // (e.g. user muted before playMusic() was ever called, then reloaded),
+    // start playback now so the music actually plays.
+    if (!this.muted && this.audio && !this.audio.src) {
+      this.playMusic(this.trackUrl);
+    }
+
     this._updateToggleIcon();
     return this.muted;
   }
