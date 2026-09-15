@@ -314,6 +314,8 @@ body {
   background: linear-gradient(to bottom, #d4af37, #b8941f);
   border: 1px solid #8b6914;
   min-width: 180px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* Mobile readability — reposition parchment overlay on small screens */
@@ -322,7 +324,14 @@ body {
     top: 22%;
     left: 5%;
     width: 50%;
-    height: 70%;
+    height: 90%;
+    padding: 1rem;
+  }
+
+  /* Ensure the confirm button fits inside the parchment on narrow viewports */
+  .parchment-content .cta-button {
+    min-width: 0;
+    width: 100%;
   }
 
   .parchment-text,
@@ -332,7 +341,8 @@ body {
   .parchment-text h4,
   .parchment-text h5,
   .parchment-text h6 {
-    font-size: clamp(0.9rem, 2.5vw, 1.15rem);
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    line-height: 1.45;
   }
 }
 

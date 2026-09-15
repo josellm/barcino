@@ -90,3 +90,65 @@ test.describe('screen transitions', () => {
   });
 });
 
+test.describe('parchment containment', () => {
+  test('child elements are contained within parchment-content across viewports', async ({ browser }) => {
+    const viewports = [320, 480, 768, 1024];
+    const tolerance = 2;
+
+    for (const width of viewports) {
+      // Fresh context + page per viewport to avoid state leakage.
+      const context = await browser.newContext();
+      const page = await context.newPage();
+      await page.setViewportSize({ width, height: 900 });
+
+      // Start from the intro screen.
+      await page.goto('http://localhost:8080', { waitUntil: 'networkidle' });
+      await page.waitForSelector('#btn-start', { state: 'visible' });
+      await page.click('#btn-start');
+
+      // Team Registration Screen — assert containment of input and confirm button.
+      await expect(page.locator('#input-team-name')).toBeVisible();
+
+      const parchmentBox = await page.locator('.parchment-content').boundingBox();
+      const inputBox = await page.locator('#input-team-name').boundingBox();
+      const confirmBox = await page.locator('#btn-confirm-team').boundingBox();
+
+      expect(parchmentBox).not.toBeNull();
+      expect(inputBox).not.toBeNull();
+      expect(confirmBox).not.toBeNull();
+
+      // #input-team-name must be fully inside .parchment-content.
+      expect(inputBox.x).toBeGreaterThanOrEqual(parchmentBox.x - tolerance);
+      expect(inputBox.y).toBeGreaterThanOrEqual(parchmentBox.y - tolerance);
+      expect(inputBox.x + inputBox.width).toBeLessThanOrEqual(parchmentBox.x + parchmentBox.width + tolerance);
+      expect(inputBox.y + inputBox.height).toBeLessThanOrEqual(parchmentBox.y + parchmentBox.height + tolerance);
+
+      // #btn-confirm-team must be fully inside .parchment-content.
+      expect(confirmBox.x).toBeGreaterThanOrEqual(parchmentBox.x - tolerance);
+      expect(confirmBox.y).toBeGreaterThanOrEqual(parchmentBox.y - tolerance);
+      expect(confirmBox.x + confirmBox.width).toBeLessThanOrEqual(parchmentBox.x + parchmentBox.width + tolerance);
+      expect(confirmBox.y + confirmBox.height).toBeLessThanOrEqual(parchmentBox.y + parchmentBox.height + tolerance);
+
+      // Advance to Mission 0.
+      await page.fill('#input-team-name', 'Detectives de Barcino');
+      await page.click('#btn-confirm-team');
+
+      // Mission 0 Screen — assert containment of .parchment-text.
+      await expect(page.locator('.parchment-text')).toBeVisible();
+
+      const missionParchmentBox = await page.locator('.parchment-content').boundingBox();
+      const textbox = await page.locator('.parchment-text').boundingBox();
+
+      expect(missionParchmentBox).not.toBeNull();
+      expect(textbox).not.toBeNull();
+
+      expect(textbox.x).toBeGreaterThanOrEqual(missionParchmentBox.x - tolerance);
+      expect(textbox.y).toBeGreaterThanOrEqual(missionParchmentBox.y - tolerance);
+      expect(textbox.x + textbox.width).toBeLessThanOrEqual(missionParchmentBox.x + missionParchmentBox.width + tolerance);
+      expect(textbox.y + textbox.height).toBeLessThanOrEqual(missionParchmentBox.y + missionParchmentBox.height + tolerance);
+
+      await context.close();
+    }
+  });
+});
+
