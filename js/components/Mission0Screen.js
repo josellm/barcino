@@ -57,3 +57,4 @@ function renderMission0Screen(teamName, onArrivedCallback) {
 }
 
 export { renderMission0Screen };
+

@@ -61,3 +61,4 @@ function renderTeamRegistrationScreen(onSubmitCallback) {
 }
 
 export { renderTeamRegistrationScreen };
+
