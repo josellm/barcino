@@ -241,7 +241,6 @@ body {
 
 /* Parchment text — mission briefing */
 .parchment-text {
-  font-family: Georgia, serif;
   color: #3b2410;
   line-height: 1.7;
   font-size: 1.15rem;
