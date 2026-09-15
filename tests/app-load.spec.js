@@ -13,9 +13,9 @@ test.describe('app-load smoke test', () => {
     // No runtime errors should have been emitted during load.
     expect(errors).toEqual([]);
 
-    // The start button must be present and clickable.
-    await expect(page.locator('#btn-start')).toBeVisible();
-    await page.click('#btn-start');
+    // The join-adventure button must be present and clickable (OnboardingFlow step 1).
+    await expect(page.locator('#btn-join-adventure')).toBeVisible();
+    await page.click('#btn-join-adventure');
 
     // After starting, the #app root element must contain rendered child elements.
     await expect(page.locator('#app')).not.toBeEmpty();

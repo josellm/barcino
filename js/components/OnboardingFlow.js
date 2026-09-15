@@ -74,7 +74,7 @@ function renderOnboardingFlow(onJoinAdventure, onTeamNameSubmit) {
   promptText.textContent = '¿Cómo se llama vuestro equipo de detectives?';
 
   const teamInput = document.createElement('input');
-  teamInput.id = 'input-team-name';
+  teamInput.id = 'team-name-input';
   teamInput.type = 'text';
   teamInput.placeholder = 'Ingresa el nombre de tu equipo';
 
@@ -83,7 +83,7 @@ function renderOnboardingFlow(onJoinAdventure, onTeamNameSubmit) {
   errorSpan.className = 'error';
 
   const btnConfirm = document.createElement('button');
-  btnConfirm.id = 'btn-confirm-team';
+  btnConfirm.id = 'btn-confirm-name';
   btnConfirm.type = 'button';
   btnConfirm.className = 'cta-button';
   btnConfirm.textContent = 'Confirmar Equipo';

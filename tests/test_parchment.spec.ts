@@ -3,8 +3,8 @@ import { test, expect } from '@playwright/test';
 test.describe('parchment scrollability and containment', () => {
   test('.parchment-content has scrollable overflow and stays within .scene-container', async ({ page }) => {
     await page.goto('/');
-    await page.click('#btn-start');
-    await expect(page.locator('#input-team-name')).toBeVisible();
+    await page.click('#btn-join-adventure');
+    await expect(page.locator('#team-name-input')).toBeVisible();
 
     // Verify overflow-y is set to auto or scroll on .parchment-content.
     const overflowY = await page.locator('.parchment-content').evaluate((el) => {
@@ -29,12 +29,12 @@ test.describe('parchment scrollability and containment', () => {
 test.describe('team registration error handling', () => {
   test('invalid characters show .error span inside parchment overlay', async ({ page }) => {
     await page.goto('/');
-    await page.click('#btn-start');
-    await expect(page.locator('#input-team-name')).toBeVisible();
+    await page.click('#btn-join-adventure');
+    await expect(page.locator('#team-name-input')).toBeVisible();
 
     // Fill with invalid characters (less than 3 chars triggers validation error).
-    await page.fill('#input-team-name', 'a');
-    await page.click('#btn-confirm-team');
+    await page.fill('#team-name-input', 'a');
+    await page.click('#btn-confirm-name');
 
     // The .error span must be visible and positioned inside .parchment-content.
     const errorSpan = page.locator('#team-name-error');
@@ -57,11 +57,11 @@ test.describe('team registration error handling', () => {
 test.describe('maps button containment', () => {
   test('.btn-maps link is within parchment bounds', async ({ page }) => {
     await page.goto('/');
-    await page.click('#btn-start');
+    await page.click('#btn-join-adventure');
 
     // Register a valid team to advance to Mission 0 where .btn-maps appears.
-    await page.fill('#input-team-name', 'Detectives de Barcino');
-    await page.click('#btn-confirm-team');
+    await page.fill('#team-name-input', 'Detectives de Barcino');
+    await page.click('#btn-confirm-name');
 
     await expect(page.locator('.btn-maps')).toBeVisible();
 

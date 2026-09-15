@@ -1,5 +1,4 @@
-import { renderIntroScreen } from './components/IntroScreen.js';
-import { renderTeamRegistrationScreen } from './components/TeamRegistrationScreen.js';
+import { renderOnboardingFlow } from './components/OnboardingFlow.js';
 import { renderMission0Screen } from './components/Mission0Screen.js';
 import { getGameState, setTeamName, advanceStage } from './gameState.js';
 
@@ -16,30 +15,29 @@ function render() {
   const state = getGameState();
 
   if (state.currentStage === 0) {
-    const introScreen = renderIntroScreen(() => {
-      advanceStage();
-      render();
-    });
-    app.appendChild(introScreen);
-  } else if (state.currentStage === 1) {
-    const teamScreen = renderTeamRegistrationScreen((name) => {
-      try {
-        setTeamName(name);
-        advanceStage();
-        render();
-      } catch (e) {
-        console.error('Failed to set team name:', e);
+    const onboarding = renderOnboardingFlow(
+      () => {
+        // Adventure begun — hook for any side effects (no-op for now).
+      },
+      (name) => {
+        try {
+          setTeamName(name);
+          advanceStage();
+          render();
+        } catch (e) {
+          console.error('Failed to set team name:', e);
+        }
       }
-    });
-    app.appendChild(teamScreen);
-  } else if (state.currentStage === 2) {
+    );
+    app.appendChild(onboarding);
+  } else if (state.currentStage === 1) {
     const missionScreen = renderMission0Screen(state.teamName, () => {
       advanceStage();
       render();
     });
     app.appendChild(missionScreen);
   } else {
-    // stage >= 3: placeholder for the next mission.
+    // stage >= 2: placeholder for the next mission.
     const placeholder = document.createElement('main');
     placeholder.id = 'next-mission-screen';
     const heading = document.createElement('h1');

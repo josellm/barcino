@@ -24,6 +24,10 @@ function renderMission0Screen(teamName, onArrivedCallback) {
   const parchmentContent = document.createElement('div');
   parchmentContent.className = 'parchment-content';
 
+  const title = document.createElement('h2');
+  title.id = 'mission0-title';
+  title.textContent = 'Misión 0: El amuleto del tiempo';
+
   const text = document.createElement('p');
   text.className = 'parchment-text';
   const greeting = teamName
@@ -51,11 +55,39 @@ function renderMission0Screen(teamName, onArrivedCallback) {
     }
   });
 
+  parchmentContent.appendChild(title);
   parchmentContent.appendChild(text);
   parchmentContent.appendChild(mapsLink);
   parchmentContent.appendChild(btnArrived);
+
+  // Parchment overlay backdrop — rendered on top of the mission scene.
+  const overlay = document.createElement('div');
+  overlay.id = 'parchment-overlay';
+  overlay.className = 'parchment-overlay';
+
+  const overlayContent = document.createElement('div');
+  overlayContent.className = 'parchment-overlay-content';
+  overlayContent.innerHTML = `
+    <p class="parchment-overlay-text">
+      El Scribe te invita a abrir el mapa y marcar el camino hacia el Passatge de les Manufactures.
+    </p>
+  `;
+
+  const btnDismiss = document.createElement('button');
+  btnDismiss.id = 'btn-estamos-en-el-passatge';
+  btnDismiss.type = 'button';
+  btnDismiss.className = 'cta-button';
+  btnDismiss.textContent = '¡Estamos en el Passatge!';
+  btnDismiss.addEventListener('click', () => {
+    overlay.remove();
+  });
+
+  overlayContent.appendChild(btnDismiss);
+  overlay.appendChild(overlayContent);
+
   scene.appendChild(parchmentContent);
   main.appendChild(scene);
+  main.appendChild(overlay);
 
   return main;
 }
