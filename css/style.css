@@ -307,8 +307,12 @@ body {
 
 /* CTA button styled inside the parchment content */
 .parchment-content .cta-button {
+  display: block;
+  margin: 0 auto;
+  color: var(--text-dark, #222);
   background: linear-gradient(to bottom, #d4af37, #b8941f);
   border: 1px solid #8b6914;
+  min-width: 180px;
 }
 
 /* Mobile readability — reposition parchment overlay on small screens */
