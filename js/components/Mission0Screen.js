@@ -18,8 +18,11 @@ function renderMission0Screen(teamName, onArrivedCallback) {
   const main = document.createElement('main');
   main.id = 'mission0-screen';
 
-  const frame = document.createElement('div');
-  frame.className = 'parchment-frame';
+  const scene = document.createElement('div');
+  scene.className = 'scene-container';
+
+  const parchmentContent = document.createElement('div');
+  parchmentContent.className = 'parchment-content';
 
   const text = document.createElement('p');
   text.className = 'parchment-text';
@@ -48,10 +51,11 @@ function renderMission0Screen(teamName, onArrivedCallback) {
     }
   });
 
-  frame.appendChild(text);
-  frame.appendChild(mapsLink);
-  frame.appendChild(btnArrived);
-  main.appendChild(frame);
+  parchmentContent.appendChild(text);
+  parchmentContent.appendChild(mapsLink);
+  parchmentContent.appendChild(btnArrived);
+  scene.appendChild(parchmentContent);
+  main.appendChild(scene);
 
   return main;
 }
