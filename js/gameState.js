@@ -10,7 +10,7 @@ const gameStateModule = (() => {
 
   function saveToLocalStorage() {
     try {
-      localStorage.setItem('barcino-game-state', JSON.stringify(state));
+      localStorage.setItem('barcino_game_state', JSON.stringify(state));
     } catch (e) {
       console.warn('Failed to save game state to localStorage:', e);
     }
@@ -18,7 +18,7 @@ const gameStateModule = (() => {
 
   function loadFromLocalStorage() {
     try {
-      const saved = localStorage.getItem('barcino-game-state');
+      const saved = localStorage.getItem('barcino_game_state');
       if (saved) {
         const parsed = JSON.parse(saved);
         state = { ...DEFAULT_STATE, ...parsed };
@@ -39,13 +39,21 @@ const gameStateModule = (() => {
   return {
     getGameState: () => ({ ...state }),
     setTeamName: (name) => {
+      if (typeof name !== 'string' || name.trim().length < 3) {
+        throw new Error('Team name must be at least 3 characters');
+      }
       state.teamName = name;
+      saveToLocalStorage();
+    },
+    setStage: (stage) => {
+      state.currentStage = stage;
       saveToLocalStorage();
     },
     saveToLocalStorage,
     loadFromLocalStorage,
-    advanceStage
+    advanceStage,
+    getState: () => ({ ...state })
   };
 })();
 
-export const { getGameState, setTeamName, saveToLocalStorage, loadFromLocalStorage, advanceStage } = gameStateModule;
+export const { getGameState, setTeamName, setStage, saveToLocalStorage, loadFromLocalStorage, advanceStage, getState } = gameStateModule;
