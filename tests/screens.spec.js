@@ -89,7 +89,7 @@ test.describe('screen transitions', () => {
     expect(errors).toEqual([]);
   });
 
-  test('04 Audio Toggle — present in DOM on initial load', async () => {
+  test('04 Audio Toggle — present in DOM on page reload', async () => {
     const errors = collectErrors(sharedPage);
 
     await sharedPage.goto('/', { waitUntil: 'networkidle' });
