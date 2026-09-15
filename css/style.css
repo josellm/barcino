@@ -19,6 +19,13 @@
 body {
   font-family: 'Georgia', serif;
   line-height: 1.6;
+  background-color: var(--bg-dark);
+}
+
+/* Header & Footer */
+header,
+footer {
+  background-color: var(--bg-medium);
 }
 
 /* Responsive Layout Rules */
