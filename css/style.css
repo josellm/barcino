@@ -1,0 +1,71 @@
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* CSS Variables - Gothic/Steampunk Color Palette */
+:root {
+  --bg-dark: #1a1a2e;
+  --bg-medium: #16213e;
+  --accent: #e94560;
+  --text-light: #f5f5f5;
+  --text-muted: #a9b7c6;
+  --gold: #c9a961;
+}
+
+/* Typography Resets */
+body {
+  font-family: 'Georgia', serif;
+  line-height: 1.6;
+}
+
+/* Responsive Layout Rules */
+html,
+body {
+  height: 100%;
+}
+
+/* Prevent flash of unstyled content */
+#intro-screen {
+  display: none;
+}
+
+#intro-screen.visible {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Background Image Styling */
+#intro-bg {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border: 2px solid var(--gold);
+}
+
+/* CTA Button Styling */
+.cta-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 16px 48px;
+  font-size: 1.2rem;
+  background: var(--accent);
+  color: var(--text-light);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.cta-button:hover {
+  background: #ff5a75;
+}
