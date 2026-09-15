@@ -18,6 +18,7 @@ function render() {
   if (state.currentStage === 0) {
     const introScreen = renderIntroScreen(() => {
       advanceStage();
+      introScreen.remove();
       render();
     });
     app.appendChild(introScreen);

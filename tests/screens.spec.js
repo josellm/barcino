@@ -184,6 +184,14 @@ test.describe('parchment containment', () => {
       expect(textbox.x + textbox.width).toBeLessThanOrEqual(missionParchmentBox.x + missionParchmentBox.width + tolerance);
       expect(textbox.y + textbox.height).toBeLessThanOrEqual(missionParchmentBox.y + missionParchmentBox.height + tolerance);
 
+      // .btn-maps must be fully inside .parchment-content.
+      const mapsBox = await page.locator('.btn-maps').boundingBox();
+      expect(mapsBox).not.toBeNull();
+      expect(mapsBox.x).toBeGreaterThanOrEqual(missionParchmentBox.x - tolerance);
+      expect(mapsBox.y).toBeGreaterThanOrEqual(missionParchmentBox.y - tolerance);
+      expect(mapsBox.x + mapsBox.width).toBeLessThanOrEqual(missionParchmentBox.x + missionParchmentBox.width + tolerance);
+      expect(mapsBox.y + mapsBox.height).toBeLessThanOrEqual(missionParchmentBox.y + missionParchmentBox.height + tolerance);
+
       await context.close();
     }
   });
