@@ -134,11 +134,6 @@ body {
   z-index: 1;
 }
 
-/* Artwork frame keeps the background image fully visible */
-.artwork-frame {
-  padding-bottom: 20px;
-}
-
 /* Brass-bordered, leather-textured start button */
 #btn-start {
   padding: 16px 48px;
