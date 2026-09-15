@@ -266,6 +266,13 @@ body {
   background: #ff5a75;
 }
 
+/* Google Maps button styled inside the parchment content */
+.parchment-content .btn-maps {
+  background: linear-gradient(to bottom, #d4af37, #b8941f);
+  color: #222;
+  border: 1px solid #8b6914;
+}
+
 /* Scene container — full-screen 16:9 stage with intro backdrop */
 .scene-container {
   position: relative;
