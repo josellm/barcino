@@ -33,7 +33,7 @@ test.describe('screen transitions', () => {
   test('01 Intro Screen — start button transitions to team registration', async () => {
     const errors = collectErrors(sharedPage);
 
-    await sharedPage.goto('http://localhost:8080', { waitUntil: 'networkidle' });
+    await sharedPage.goto('/', { waitUntil: 'networkidle' });
     expect(errors).toEqual([]);
 
     await sharedPage.click('#btn-start');
@@ -102,7 +102,7 @@ test.describe('parchment containment', () => {
       await page.setViewportSize({ width, height: 900 });
 
       // Start from the intro screen.
-      await page.goto('http://localhost:8080', { waitUntil: 'networkidle' });
+      await page.goto('/', { waitUntil: 'networkidle' });
       await page.waitForSelector('#btn-start', { state: 'visible' });
       await page.click('#btn-start');
 

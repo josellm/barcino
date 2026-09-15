@@ -8,7 +8,7 @@ test.describe('app-load smoke test', () => {
     page.on('pageerror', (error) => errors.push(error));
     page.on('consoleerror', (message) => errors.push(message));
 
-    await page.goto('http://localhost:8080', { waitUntil: 'networkidle' });
+    await page.goto('/', { waitUntil: 'networkidle' });
 
     // No runtime errors should have been emitted during load.
     expect(errors).toEqual([]);
