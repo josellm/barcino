@@ -1,0 +1,14 @@
+{
+  "name": "barcino",
+  "version": "1.0.0",
+  "description": "El amuleto del tiempo",
+  "type": "module",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:smoke": "serve . -p 3000 & SERVER_PID=$!; npx playwright test; kill $SERVER_PID 2>/dev/null || true"
+  },
+  "devDependencies": {
+    "serve": "^16.0.0",
+    "@playwright/test": "^1.56.0"
+  }
+}
