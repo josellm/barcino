@@ -54,8 +54,9 @@ body {
 #intro-screen {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   padding: 20px;
   position: relative;
   background-color: var(--bg-dark);
@@ -121,22 +122,20 @@ body {
 
 /* Action Bar Layout */
 .action-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 16px;
   background: linear-gradient(to top, rgba(26, 26, 46, 0.95), rgba(26, 26, 46, 0.8));
   backdrop-filter: blur(4px);
-  z-index: 10;
+  width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 /* Artwork frame keeps the background image fully visible */
 .artwork-frame {
-  padding-bottom: 120px;
+  padding-bottom: 20px;
 }
 
 /* Brass-bordered, leather-textured start button */
@@ -164,14 +163,31 @@ body {
 /* Mobile portrait (375px) */
 @media (max-width: 480px) {
   .action-bar {
-    position: sticky;
-    bottom: 0;
     padding: 12px;
   }
 
   #btn-start {
     width: 100%;
     max-width: 100%;
+  }
+}
+
+/* Tablet (768px) */
+@media (min-width: 481px) and (max-width: 1024px) {
+  .action-bar {
+    padding: 14px;
+  }
+
+  #btn-start {
+    padding: 14px 44px;
+    font-size: 1.15rem;
+  }
+}
+
+/* Desktop (1025px+) */
+@media (min-width: 1025px) {
+  .action-bar {
+    padding: 16px;
   }
 }
 
