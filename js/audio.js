@@ -53,11 +53,7 @@ class AudioController {
   _setupAutoplayFallback() {
     const fallback = () => {
       if (!this.muted && this.audio) {
-        this.audio.play().catch((err) => {
-          if (err.name === 'NotAllowedError') {
-            console.warn('Autoplay prevented:', err);
-          }
-        });
+        this.playMusic(this.trackUrl);
       }
       document.removeEventListener('click', fallback);
       document.removeEventListener('pointerdown', fallback);
