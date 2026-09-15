@@ -61,15 +61,5 @@ document.addEventListener('DOMContentLoaded', () => {
   // Clear any static markup that may remain inside #app.
   app.innerHTML = '';
 
-  const state = getGameState();
-  if (state.currentStage === 0) {
-    const introScreen = renderIntroScreen(() => {
-      advanceStage();
-      introScreen.remove();
-      render();
-    });
-    app.appendChild(introScreen);
-  } else {
-    render();
-  }
+  render();
 });
