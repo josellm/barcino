@@ -32,8 +32,7 @@ header h1 {
   color: var(--gold);
 }
 
-footer p,
-#intro-screen .container p {
+footer p {
   color: var(--text-muted);
 }
 
@@ -69,6 +68,13 @@ body {
   position: relative;
   z-index: 1;
   text-align: center;
+  background: rgba(26, 26, 46, 0.7);
+  padding: 24px;
+  border-radius: 8px;
+}
+
+#intro-screen .container p {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .cta-button {
