@@ -154,7 +154,7 @@ class AudioController {
 
     const button = document.querySelector('#btn-audio-toggle');
     if (button) {
-      button.setAttribute('aria-pressed', String(!this.muted));
+      button.setAttribute('aria-pressed', String(this.muted));
     }
   }
 }
