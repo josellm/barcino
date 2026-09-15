@@ -1,5 +1,5 @@
 import { renderIntroScreen } from './components/IntroScreen.js';
-import { getGameState, setTeamName, saveToLocalStorage } from './gameState.js';
+import { getGameState, setTeamName, advanceStage } from './gameState.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = document.getElementById('app');
@@ -20,14 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
       setTeamName('Aventurero');
     }
 
-    // Advance to the next stage.
-    state.currentStage += 1;
-
-    // Persist the updated state to localStorage.
-    saveToLocalStorage();
+    // Advance to the next stage (mutates internal state and persists).
+    advanceStage();
 
     // Log the transition for debugging.
-    console.log(`Transitioning to stage ${state.currentStage}`);
+    console.log(`Transitioning to stage ${getGameState().currentStage}`);
   });
 
   app.appendChild(introScreen);
