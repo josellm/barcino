@@ -12,7 +12,7 @@ class AudioController {
   constructor() {
     this.audio = null;
     this.initialized = false;
-    this.muted = false;
+    this.muted = localStorage.getItem('audioMuted') === 'true';
     this.volume = 0.5;
     this.trackUrl = 'assets/audio/barcino.mp3';
   }
@@ -33,7 +33,38 @@ class AudioController {
 
     this._setupEventListeners();
     this._updateToggleIcon();
+
+    // Set up autoplay fallback on reload when audio is not muted.
+    if (!this.muted) {
+      const navEntry = performance.getEntriesByType('navigation')[0];
+      if (navEntry && navEntry.type === 'reload') {
+        this._setupAutoplayFallback();
+      }
+    }
+
     this.initialized = true;
+  }
+
+  /**
+   * Attach one-time document listeners to recover autoplay after a reload.
+   * On the first click or pointerdown, attempts to play audio and then
+   * removes both listeners.
+   */
+  _setupAutoplayFallback() {
+    const fallback = () => {
+      if (!this.muted && this.audio) {
+        this.audio.play().catch((err) => {
+          if (err.name === 'NotAllowedError') {
+            console.warn('Autoplay prevented:', err);
+          }
+        });
+      }
+      document.removeEventListener('click', fallback);
+      document.removeEventListener('pointerdown', fallback);
+    };
+
+    document.addEventListener('click', fallback);
+    document.addEventListener('pointerdown', fallback);
   }
 
   /**
@@ -91,6 +122,7 @@ class AudioController {
     if (this.audio) {
       this.audio.muted = this.muted;
     }
+    localStorage.setItem('audioMuted', String(this.muted));
     this._updateToggleIcon();
     return this.muted;
   }
