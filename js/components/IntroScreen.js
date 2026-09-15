@@ -2,8 +2,7 @@
  * IntroScreen — builds the starting screen DOM for Barcino.
  *
  * Renders the intro screen with a scene-container backdrop, parchment
- * content overlay, and a start button. The audio toggle lives inside the
- * action bar.
+ * content overlay, and a start button.
  */
 
 /**
@@ -49,20 +48,7 @@ function renderIntroScreen(onStartCallback) {
     }
   });
 
-  const btnAudioToggle = document.createElement('button');
-  btnAudioToggle.id = 'btn-audio-toggle';
-  btnAudioToggle.type = 'button';
-  btnAudioToggle.className = 'audio-toggle';
-  btnAudioToggle.setAttribute('aria-label', 'Toggle audio');
-  btnAudioToggle.setAttribute('aria-pressed', 'false');
-
-  const audioIcon = document.createElement('span');
-  audioIcon.className = 'audio-icon';
-  audioIcon.textContent = '🔊';
-
-  btnAudioToggle.appendChild(audioIcon);
   ActionBar.appendChild(btnStart);
-  ActionBar.appendChild(btnAudioToggle);
 
   main.appendChild(scene);
   main.appendChild(ActionBar);
