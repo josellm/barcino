@@ -88,6 +88,11 @@ body {
   background: #ff5a75;
 }
 
+.cta-button:focus {
+  outline: 2px solid var(--gold);
+  transition: outline 0.2s;
+}
+
 /* Mobile portrait (375px) */
 @media (max-width: 480px) {
   #intro-screen {
