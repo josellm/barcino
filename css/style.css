@@ -290,6 +290,8 @@ body {
   padding: 1.5rem;
   box-sizing: border-box;
   overflow-y: auto;
+  background: linear-gradient(135deg, #f5e6c8 0%, #e8d5a3 30%, #f0dca8 60%, #e2c98a 100%);
+  border: 3px solid var(--brass);
   color: #2b1d0c;
   font-family: 'Cinzel', 'Georgia', serif;
 }
