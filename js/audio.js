@@ -115,6 +115,11 @@ class AudioController {
     if (icon) {
       icon.textContent = this.muted ? '🔇' : '🔊';
     }
+
+    const button = document.querySelector('#btn-audio-toggle');
+    if (button) {
+      button.setAttribute('aria-pressed', String(!this.muted));
+    }
   }
 }
 
