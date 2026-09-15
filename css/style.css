@@ -42,6 +42,7 @@ body {
   justify-content: center;
   padding: 20px;
   position: relative;
+  background-color: var(--bg-dark);
 }
 
 /* Background Image Styling */
