@@ -13,6 +13,14 @@
   --text-light: #f5f5f5;
   --text-muted: #a9b7c6;
   --gold: #c9a961;
+
+  /* Retro-Steampunk Theme Palette */
+  --brass: #d4af37;
+  --brass-dark: #b8860b;
+  --leather-bg: linear-gradient(#2b1d0e, #1a1208);
+  --glow: 0 0 12px rgba(212, 175, 55, 0.4);
+  --brass-hover: #e0c068;
+  --brass-active: #a07d2e;
 }
 
 /* Typography Resets */
