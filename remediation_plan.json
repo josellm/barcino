@@ -1,0 +1,34 @@
+{
+  "plan_title": "Fix PR Review Issues: Module Exports, State Mutation, and Audio Toggle Placement",
+  "total_steps": 4,
+  "steps": [
+    {
+      "step_number": 1,
+      "title": "Export persistence and stage-advance functions from gameState.js",
+      "description": "Modify js/gameState.js to add saveToLocalStorage, loadFromLocalStorage, and advanceStage to the returned module object so they can be imported by app.js. The advanceStage function should increment state.currentStage directly on the internal state object (not a copy) and then call saveToLocalStorage(). Ensure the returned object includes: getGameState, setTeamName, saveToLocalStorage, loadFromLocalStorage, and advanceStage.",
+      "estimated_impact": "High",
+      "affected_files": ["js/gameState.js"]
+    },
+    {
+      "step_number": 2,
+      "title": "Fix state mutation in app.js by using the new advanceStage import",
+      "description": "In js/app.js, update the import statement to import advanceStage from gameState.js instead of saveToLocalStorage. Remove the local advanceStage function definition (which incorrectly mutates a shallow copy from getGameState). The existing event listener 'btnStart.addEventListener('click', advanceStage)' will now reference the imported advanceStage from gameState.js, which correctly mutates the internal state and persists it.",
+      "estimated_impact": "High",
+      "affected_files": ["js/app.js"]
+    },
+    {
+      "step_number": 3,
+      "title": "Add audio toggle button back into IntroScreen component's action bar",
+      "description": "In js/components/IntroScreen.js, add the audio toggle button HTML back into the .action-bar div within the render() template literal, restoring the original DOM hierarchy. The button should have: id='btn-audio-toggle', type='button', class='audio-toggle', aria-label='Toggle audio', aria-pressed='false', and contain a span with class 'audio-icon' containing the text '🔊'. Place it after the btn-start button inside .action-bar.",
+      "estimated_impact": "Medium",
+      "affected_files": ["js/components/IntroScreen.js"]
+    },
+    {
+      "step_number": 4,
+      "title": "Remove standalone audio toggle button from index.html",
+      "description": "In index.html, remove the standalone <button id='btn-audio-toggle' type='button' class='audio-toggle' aria-label='Toggle audio' aria-pressed='false'><span class='audio-icon'>🔊</span></button> element that was placed as a direct child of <body>. This element is now rendered by the IntroScreen component inside the action bar, so keeping it in HTML would cause a duplicate element and break the CSS layout that depends on the button being nested within .action-bar.",
+      "estimated_impact": "Medium",
+      "affected_files": ["index.html"]
+    }
+  ]
+}

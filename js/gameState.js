@@ -31,11 +31,19 @@ const gameStateModule = (() => {
   // Load persisted state on module load
   loadFromLocalStorage();
 
+  function advanceStage() {
+    state.currentStage++;
+    saveToLocalStorage();
+  }
+
   return {
     getGameState: () => ({ ...state }),
     setTeamName: (name) => {
       state.teamName = name;
       saveToLocalStorage();
-    }
+    },
+    saveToLocalStorage,
+    loadFromLocalStorage,
+    advanceStage
   };
 })();
