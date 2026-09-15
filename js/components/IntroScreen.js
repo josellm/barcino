@@ -1,8 +1,9 @@
 /**
  * IntroScreen — builds the starting screen DOM for Barcino.
  *
- * Renders the intro screen with background image, container, and
- * a start button. The audio toggle lives inside the action bar.
+ * Renders the intro screen with a scene-container backdrop, parchment
+ * content overlay, and a start button. The audio toggle lives inside the
+ * action bar.
  */
 
 /**
@@ -17,13 +18,18 @@ function renderIntroScreen(onStartCallback) {
   const main = document.createElement('main');
   main.id = 'intro-screen';
 
-  const bg = document.createElement('img');
-  bg.id = 'intro-bg';
-  bg.src = 'assets/img/intro-bg.jpg';
-  bg.alt = 'Intro background';
+  const scene = document.createElement('div');
+  scene.className = 'scene-container';
 
-  const container = document.createElement('div');
-  container.className = 'container';
+  const parchmentContent = document.createElement('div');
+  parchmentContent.className = 'parchment-content';
+
+  const title = document.createElement('h1');
+  title.className = 'parchment-text';
+  title.textContent = 'El amuleto del tiempo';
+
+  parchmentContent.appendChild(title);
+  scene.appendChild(parchmentContent);
 
   const ActionBar = document.createElement('div');
   ActionBar.className = 'action-bar';
@@ -58,8 +64,7 @@ function renderIntroScreen(onStartCallback) {
   ActionBar.appendChild(btnStart);
   ActionBar.appendChild(btnAudioToggle);
 
-  main.appendChild(bg);
-  main.appendChild(container);
+  main.appendChild(scene);
   main.appendChild(ActionBar);
 
   return main;

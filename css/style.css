@@ -12,6 +12,7 @@
   --accent: #e94560;
   --text-light: #f5f5f5;
   --text-muted: #a9b7c6;
+  --text-dark: #222;
   --gold: #c9a961;
 
   /* Retro-Steampunk Theme Palette */
@@ -48,18 +49,6 @@ body {
   height: 100%;
 }
 
-/* Intro screen layout */
-#intro-screen {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px;
-  position: relative;
-  background-color: var(--bg-dark);
-}
-
 /* Background Image Styling */
 #intro-bg {
   position: absolute;
@@ -72,10 +61,6 @@ body {
 }
 
 /* CTA Button Styling */
-.container {
-  position: relative;
-}
-
 .cta-button {
   display: inline-block;
   margin: 0 auto;
@@ -100,28 +85,10 @@ body {
 
 /* Mobile portrait (375px) */
 @media (max-width: 480px) {
-  #intro-screen {
-    padding: 16px;
-    padding-bottom: 80px;
-  }
-
   .cta-button {
     padding: 14px 40px;
     font-size: 1.1rem;
   }
-}
-
-/* Action Bar Layout */
-.action-bar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 16px;
-  background: linear-gradient(to top, rgba(26, 26, 46, 0.95), rgba(26, 26, 46, 0.8));
-  backdrop-filter: blur(4px);
-  width: 100%;
-  position: relative;
-  z-index: 1;
 }
 
 /* Brass-bordered, leather-textured start button */
@@ -154,14 +121,6 @@ body {
 
 /* Mobile portrait (375px) */
 @media (max-width: 480px) {
-  .action-bar {
-    padding: 12px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
-
   #btn-start {
     width: 100%;
     max-width: 100%;
@@ -170,20 +129,9 @@ body {
 
 /* Tablet (768px) */
 @media (min-width: 481px) and (max-width: 1024px) {
-  .action-bar {
-    padding: 14px;
-  }
-
   #btn-start {
     padding: 14px 44px;
     font-size: 1.15rem;
-  }
-}
-
-/* Desktop (1025px+) */
-@media (min-width: 1025px) {
-  .action-bar {
-    padding: 16px;
   }
 }
 
@@ -228,20 +176,8 @@ body {
   }
 }
 
-/* Parchment frame — mission briefing container */
-.parchment-frame {
-  background: linear-gradient(135deg, #f5e6c8 0%, #e8d5a3 30%, #f0dca8 60%, #e2c98a 100%);
-  border: 3px solid var(--brass);
-  border-radius: 6px;
-  padding: 32px;
-  max-width: 640px;
-  margin: 32px auto;
-  box-shadow: inset 0 2px 4px rgba(212, 175, 55, 0.3), 0 8px 24px rgba(0, 0, 0, 0.5);
-}
-
 /* Parchment text — mission briefing */
 .parchment-text {
-  font-family: Georgia, serif;
   color: #3b2410;
   line-height: 1.7;
   font-size: 1.15rem;
@@ -249,20 +185,119 @@ body {
   text-align: center;
 }
 
-/* Google Maps link button */
-.btn-maps {
-  display: inline-block;
-  margin: 0 auto 24px;
-  padding: 10px 24px;
-  font-size: 1rem;
-  color: var(--text-light);
-  text-decoration: none;
-  background: var(--accent);
-  border-radius: 4px;
-  transition: background 0.3s;
+/* Google Maps button styled inside the parchment content */
+.parchment-content .btn-maps {
+  background: linear-gradient(to bottom, #d4af37, #b8941f);
+  color: #222;
+  border: 1px solid #8b6914;
 }
 
-.btn-maps:hover {
-  background: #ff5a75;
+/* Scene container — full-screen 16:9 stage with intro backdrop */
+.scene-container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  aspect-ratio: 16/9;
+  min-height: 50vh;
+  background-image: url('../assets/img/barcino_intro.jpeg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Parchment content overlay — positioned over the scene backdrop */
+.parchment-content {
+  position: absolute;
+  top: 18%;
+  left: 8%;
+  width: 42%;
+  height: 62%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  overflow-y: auto;
+  background: linear-gradient(135deg, #f5e6c8 0%, #e8d5a3 30%, #f0dca8 60%, #e2c98a 100%);
+  border: 3px solid var(--brass);
+  color: #2b1d0c;
+  font-family: 'Cinzel', 'Georgia', serif;
+}
+
+/* Input fields inside the parchment content */
+.parchment-content input {
+  background: rgba(255, 248, 230, 0.7);
+  border: 1px solid #8b6914;
+  border-radius: 4px;
+  padding: 0.5rem;
+  color: #2b1d0c;
+}
+
+/* Validation error message inside the parchment form */
+.parchment-content .error {
+  color: #d32f2f;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+/* CTA button styled inside the parchment content */
+.parchment-content .cta-button {
+  display: block;
+  margin: 0 auto;
+  color: var(--text-dark, #222);
+  background: linear-gradient(to bottom, #d4af37, #b8941f);
+  border: 1px solid #8b6914;
+  min-width: 180px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Mobile readability — reposition parchment overlay on small screens */
+@media (max-width: 768px) {
+  .parchment-content {
+    top: 22%;
+    left: 5%;
+    width: 50%;
+    height: 90%;
+    padding: 1rem;
+  }
+
+  /* Ensure the confirm button fits inside the parchment on narrow viewports */
+  .parchment-content .cta-button {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .parchment-text,
+  .parchment-text h1,
+  .parchment-text h2,
+  .parchment-text h3,
+  .parchment-text h4,
+  .parchment-text h5,
+  .parchment-text h6 {
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    line-height: 1.45;
+  }
+}
+
+/* Intermediate screens — wider parchment for the registration form */
+@media (min-width: 481px) and (max-width: 767px) {
+  .parchment-content {
+    top: 18%;
+    left: 6%;
+    width: 60%;
+    height: 68%;
+    padding: 1.25rem;
+  }
+
+  .parchment-text,
+  .parchment-text h1,
+  .parchment-text h2,
+  .parchment-text h3,
+  .parchment-text h4,
+  .parchment-text h5,
+  .parchment-text h6 {
+    font-size: clamp(1rem, 2.2vw, 1.25rem);
+  }
 }
 

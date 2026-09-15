@@ -22,8 +22,11 @@ function renderTeamRegistrationScreen(onSubmitCallback) {
   const main = document.createElement('main');
   main.id = 'team-registration-screen';
 
-  const container = document.createElement('div');
-  container.className = 'container';
+  const sceneContainer = document.createElement('div');
+  sceneContainer.className = 'scene-container';
+
+  const parchmentContent = document.createElement('div');
+  parchmentContent.className = 'parchment-content';
 
   const input = document.createElement('input');
   input.id = 'input-team-name';
@@ -52,10 +55,11 @@ function renderTeamRegistrationScreen(onSubmitCallback) {
     }
   });
 
-  container.appendChild(input);
-  container.appendChild(errorSpan);
-  container.appendChild(btnConfirm);
-  main.appendChild(container);
+  parchmentContent.appendChild(input);
+  parchmentContent.appendChild(errorSpan);
+  parchmentContent.appendChild(btnConfirm);
+  sceneContainer.appendChild(parchmentContent);
+  main.appendChild(sceneContainer);
 
   return main;
 }
