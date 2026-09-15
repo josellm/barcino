@@ -58,7 +58,7 @@ test.describe('screen transitions', () => {
     await sharedPage.fill('#input-team-name', 'Detectives de Barcino');
     await sharedPage.click('#btn-confirm-team');
     await expect(sharedPage.locator('.parchment-content')).toBeVisible();
-    await expect(sharedPage.locator('#btn-arrived-palau')).toBeVisible();
+    await expect(sharedPage.locator('#btn-arrived-passatge')).toBeVisible();
     await expect(sharedPage.locator('.parchment-text')).toContainText('Detectives de Barcino');
 
     expect(errors).toEqual([]);
@@ -78,7 +78,7 @@ test.describe('screen transitions', () => {
     await sharedPage.reload({ waitUntil: 'networkidle' });
 
     // State must be restored to Mission 0 (not Intro) after reload.
-    await expect(sharedPage.locator('#btn-arrived-palau')).toBeVisible();
+    await expect(sharedPage.locator('#btn-arrived-passatge')).toBeVisible();
     await expect(sharedPage.locator('.parchment-text')).toContainText('Detectives de Barcino');
 
     const persistedAfter = await sharedPage.evaluate(() =>
