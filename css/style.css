@@ -280,6 +280,7 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   aspect-ratio: 16/9;
+  min-height: 50vh;
   background-image: url('../assets/img/barcino_intro.jpeg');
   background-size: cover;
   background-position: center;
