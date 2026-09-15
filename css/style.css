@@ -59,6 +59,7 @@ body {
   max-height: 100vh;
   object-fit: cover;
   z-index: 0;
+  pointer-events: none;
 }
 
 /* CTA Button Styling */

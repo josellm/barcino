@@ -9,7 +9,7 @@ export default defineConfig({
     command: 'npx serve . -p 8080',
     port: 8080,
     timeout: 120000,
-    reuseExistingServer: false,
+    reuseExistingServer: true,
   },
 });
 
