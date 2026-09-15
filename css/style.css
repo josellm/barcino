@@ -91,9 +91,3 @@ body {
   }
 }
 
-/* Desktop landscape (1920px) */
-@media (min-width: 1920px) {
-  #intro-bg {
-    object-fit: cover;
-  }
-}
