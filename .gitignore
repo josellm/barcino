@@ -11,7 +11,8 @@ dist/
 # OS
 .DS_Store
 Thumbs.db
-package-lock.json
+backend/ResaleAI.Api/resaleai.*
+frontend/package-lock.json
 
 # Nanobot runtime artifacts
 sessions/
