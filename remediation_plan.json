@@ -1,0 +1,48 @@
+{
+  "plan_title": "PR Review Remediation: Fix invalid gradient, button styling, dead CSS, and action bar docking",
+  "total_steps": 6,
+  "steps": [
+    {
+      "step_number": 1,
+      "title": "Fix invalid nested gradient in --leather-bg variable",
+      "description": "In css/style.css, the variable --leather-bg is set to linear-gradient(#2b1d0e, #1a1208), which is not a color and breaks the repeating-linear-gradient() used as the button background. Replace it with a solid hex color and add a second variable for the dark stop. Specifically: change '--leather-bg: linear-gradient(#2b1d0e, #1a1208);' to '--leather-bg: #2b1d0e;' and add a new line '--leather-bg-dark: #1a1208;'. Then in the #btn-start rule, update the repeating-linear-gradient() so the first color stop uses 'var(--leather-bg)' and the second color stop uses 'var(--leather-bg-dark)', keeping the 4px/8px stripe pattern intact. This makes the leather-textured background render correctly.",
+      "estimated_impact": "High",
+      "affected_files": ["css/style.css"]
+    },
+    {
+      "step_number": 2,
+      "title": "Add missing typography and spacing to #btn-start",
+      "description": "The #btn-start rule currently only defines border, background, box-shadow, and transition, relying on UA defaults or the .cta-button class for typography. Per the acceptance criterion of using custom thematic CSS instead of default browser styles, add the following properties to the base #btn-start rule: padding (e.g. 16px 48px), font-size (e.g. 1.2rem), color (var(--text-light)), font-family (inherit or 'Georgia', serif), cursor (pointer), and text-align (center). Place these properties in the #btn-start rule block before the background declaration so the button is fully self-styled. The tablet breakpoint already overrides padding and font-size, so those will scale correctly at 481-1024px.",
+      "estimated_impact": "Medium",
+      "affected_files": ["css/style.css"]
+    },
+    {
+      "step_number": 3,
+      "title": "Remove dead .artwork-frame CSS rule",
+      "description": "The .artwork-frame rule defines only padding-bottom: 20px but the class is never applied to any element in index.html, making it dead CSS. Remove the entire '.artwork-frame { padding-bottom: 20px; }' block (including its comment '/* Artwork frame keeps the background image fully visible */') from css/style.css. This eliminates unused CSS that provides no visual effect given the current markup, where #intro-bg is already absolutely positioned with object-fit: cover.",
+      "estimated_impact": "Low",
+      "affected_files": ["css/style.css"]
+    },
+    {
+      "step_number": 4,
+      "title": "Dock action bar at bottom of viewport on mobile and constrain artwork",
+      "description": "The action bar currently uses position: relative inside a flex column layout, so it scrolls with the page rather than staying fixed at the bottom of the viewport on mobile. In the mobile portrait breakpoint (@media max-width: 480px), add 'position: fixed; bottom: 0; left: 0; right: 0;' to the .action-bar rule so it is pinned to the viewport bottom. To prevent the .container welcome text from being hidden behind the fixed bar, add 'padding-bottom: 80px;' to the #intro-screen rule in the same mobile breakpoint. Additionally, add 'max-height: 100vh;' to the #intro-bg rule (base, outside breakpoints) to ensure the illustration never exceeds the viewport height regardless of its intrinsic dimensions. Keep the existing object-fit: cover and inset: 0 properties.",
+      "estimated_impact": "Medium",
+      "affected_files": ["css/style.css"]
+    },
+    {
+      "step_number": 5,
+      "title": "Remove unused CSS variables",
+      "description": "The variables --brass-dark (#b8860b), --brass-hover (#e0c068), and --brass-active (#a07d2e) are declared in :root but never referenced anywhere in css/style.css or index.html. Remove these three lines from the :root block to keep the variable palette clean and avoid confusion. Verify no references exist before deleting by searching the stylesheet for each variable name.",
+      "estimated_impact": "Low",
+      "affected_files": ["css/style.css"]
+    },
+    {
+      "step_number": 6,
+      "title": "Normalize HTML indentation in index.html",
+      "description": "The index.html file should use consistent 2-space indentation per nesting level throughout. Review the action-bar block (lines 18-20), the closing </div> on line 21, and the button element on line 19. Ensure the <div class='action-bar'> opener, the <button id='btn-start'> element, and the matching </div> all use 2-space increments matching the surrounding <main>, <div class='container'>, and <header>/<footer> structure. This is a whitespace-only change with no structural or behavioral impact.",
+      "estimated_impact": "Low",
+      "affected_files": ["index.html"]
+    }
+  ]
+}
