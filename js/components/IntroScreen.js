@@ -2,8 +2,7 @@
  * IntroScreen — builds the starting screen DOM for Barcino.
  *
  * Renders the intro screen with background image, container, and
- * a start button. The audio toggle is intentionally excluded — it
- * lives as a global overlay in index.html.
+ * a start button. The audio toggle lives inside the action bar.
  */
 
 /**
@@ -26,10 +25,10 @@ function renderIntroScreen(onStartCallback) {
   const container = document.createElement('div');
   container.className = 'container';
 
-  const actionBar = document.createElement('div');
-  actionBar.className = 'action-bar';
-  actionBar.setAttribute('role', 'toolbar');
-  actionBar.setAttribute('aria-label', 'Story start actions');
+  const ActionBar = document.createElement('div');
+  ActionBar.className = 'action-bar';
+  ActionBar.setAttribute('role', 'toolbar');
+  ActionBar.setAttribute('aria-label', 'Story start actions');
 
   const btnStart = document.createElement('button');
   btnStart.id = 'btn-start';
@@ -44,11 +43,24 @@ function renderIntroScreen(onStartCallback) {
     }
   });
 
-  actionBar.appendChild(btnStart);
+  const btnAudioToggle = document.createElement('button');
+  btnAudioToggle.id = 'btn-audio-toggle';
+  btnAudioToggle.type = 'button';
+  btnAudioToggle.className = 'audio-toggle';
+  btnAudioToggle.setAttribute('aria-label', 'Toggle audio');
+  btnAudioToggle.setAttribute('aria-pressed', 'false');
+
+  const audioIcon = document.createElement('span');
+  audioIcon.className = 'audio-icon';
+  audioIcon.textContent = '🔊';
+
+  btnAudioToggle.appendChild(audioIcon);
+  ActionBar.appendChild(btnStart);
+  ActionBar.appendChild(btnAudioToggle);
 
   main.appendChild(bg);
   main.appendChild(container);
-  main.appendChild(actionBar);
+  main.appendChild(ActionBar);
 
   return main;
 }
