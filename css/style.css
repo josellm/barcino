@@ -324,5 +324,36 @@ body {
     width: 50%;
     height: 70%;
   }
+
+  .parchment-text,
+  .parchment-text h1,
+  .parchment-text h2,
+  .parchment-text h3,
+  .parchment-text h4,
+  .parchment-text h5,
+  .parchment-text h6 {
+    font-size: clamp(0.9rem, 2.5vw, 1.15rem);
+  }
+}
+
+/* Intermediate screens — wider parchment for the registration form */
+@media (min-width: 481px) and (max-width: 767px) {
+  .parchment-content {
+    top: 18%;
+    left: 6%;
+    width: 60%;
+    height: 68%;
+    padding: 1.25rem;
+  }
+
+  .parchment-text,
+  .parchment-text h1,
+  .parchment-text h2,
+  .parchment-text h3,
+  .parchment-text h4,
+  .parchment-text h5,
+  .parchment-text h6 {
+    font-size: clamp(1rem, 2.2vw, 1.25rem);
+  }
 }
 
