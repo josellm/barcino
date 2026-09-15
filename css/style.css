@@ -141,6 +141,12 @@ body {
 
 /* Brass-bordered, leather-textured start button */
 #btn-start {
+  padding: 16px 48px;
+  font-size: 1.2rem;
+  color: var(--text-light);
+  font-family: inherit;
+  cursor: pointer;
+  text-align: center;
   border: 2px solid var(--brass);
   background: repeating-linear-gradient(
     45deg,
