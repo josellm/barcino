@@ -96,7 +96,7 @@ body {
 
 .cta-button:focus {
   outline: 2px solid var(--gold);
-  transition: outline 0.2s;
+  transition: background 0.3s, outline 0.2s;
 }
 
 /* Mobile portrait (375px) */
