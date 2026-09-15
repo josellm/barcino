@@ -51,9 +51,8 @@ const gameStateModule = (() => {
     },
     saveToLocalStorage,
     loadFromLocalStorage,
-    advanceStage,
-    getState: () => ({ ...state })
+    advanceStage
   };
 })();
 
-export const { getGameState, setTeamName, setStage, saveToLocalStorage, loadFromLocalStorage, advanceStage, getState } = gameStateModule;
+export const { getGameState, setTeamName, setStage, saveToLocalStorage, loadFromLocalStorage, advanceStage } = gameStateModule;
