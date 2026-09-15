@@ -27,35 +27,36 @@ body {
   height: 100%;
 }
 
-/* Prevent flash of unstyled content */
+/* Intro screen layout */
 #intro-screen {
-  display: none;
-}
-
-#intro-screen.visible {
-  display: flex;
   min-height: 100vh;
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
+  position: relative;
 }
 
 /* Background Image Styling */
 #intro-bg {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  max-width: 800px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-  border: 2px solid var(--gold);
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
 }
 
 /* CTA Button Styling */
+.container {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
 .cta-button {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  display: inline-block;
+  margin: 0 auto;
   padding: 16px 48px;
   font-size: 1.2rem;
   background: var(--accent);
@@ -68,4 +69,23 @@ body {
 
 .cta-button:hover {
   background: #ff5a75;
+}
+
+/* Mobile portrait (375px) */
+@media (max-width: 480px) {
+  #intro-screen {
+    padding: 16px;
+  }
+
+  .cta-button {
+    padding: 14px 40px;
+    font-size: 1.1rem;
+  }
+}
+
+/* Desktop landscape (1920px) */
+@media (min-width: 1920px) {
+  #intro-bg {
+    object-fit: cover;
+  }
 }
