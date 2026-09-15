@@ -57,6 +57,7 @@ test.describe('screen transitions', () => {
     // Valid submission must advance to Mission 0 and personalise the parchment.
     await sharedPage.fill('#input-team-name', 'Detectives de Barcino');
     await sharedPage.click('#btn-confirm-team');
+    await expect(sharedPage.locator('.parchment-content')).toBeVisible();
     await expect(sharedPage.locator('#btn-arrived-palau')).toBeVisible();
     await expect(sharedPage.locator('.parchment-text')).toContainText('Detectives de Barcino');
 
@@ -66,6 +67,7 @@ test.describe('screen transitions', () => {
   test('03 Mission 0 Screen & Persistence — state survives a page reload', async () => {
     const errors = collectErrors(sharedPage);
 
+    await expect(sharedPage.locator('.parchment-content')).toBeVisible();
     await expect(sharedPage.locator('.parchment-text')).toContainText('Detectives de Barcino');
 
     const persistedBefore = await sharedPage.evaluate(() =>
