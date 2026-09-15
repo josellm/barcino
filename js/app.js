@@ -25,11 +25,11 @@ function render() {
     const teamScreen = renderTeamRegistrationScreen((name) => {
       try {
         setTeamName(name);
+        advanceStage();
+        render();
       } catch (e) {
         console.error('Failed to set team name:', e);
       }
-      advanceStage();
-      render();
     });
     app.appendChild(teamScreen);
   } else if (state.currentStage === 2) {
