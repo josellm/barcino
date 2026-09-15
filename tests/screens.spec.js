@@ -88,6 +88,43 @@ test.describe('screen transitions', () => {
 
     expect(errors).toEqual([]);
   });
+
+  test('04 Audio Toggle — present in DOM on initial load', async () => {
+    const errors = collectErrors(sharedPage);
+
+    await sharedPage.goto('/', { waitUntil: 'networkidle' });
+    await expect(sharedPage.locator('#btn-audio-toggle')).toHaveCount(1);
+
+    expect(errors).toEqual([]);
+  });
+
+  test('05 Audio Toggle — remains visible through onboarding screens', async () => {
+    const errors = collectErrors(sharedPage);
+
+    // Reset to intro screen for a clean onboarding flow.
+    await sharedPage.evaluate(() => localStorage.removeItem('barcino_game_state'));
+    await sharedPage.goto('/', { waitUntil: 'networkidle' });
+
+    await sharedPage.click('#btn-start');
+    await sharedPage.fill('#input-team-name', 'Detectives de Barcino');
+    await sharedPage.click('#btn-confirm-team');
+
+    await expect(sharedPage.locator('#btn-audio-toggle')).toBeVisible();
+
+    expect(errors).toEqual([]);
+  });
+
+  test('06 Audio Toggle — persists across page reload', async () => {
+    const errors = collectErrors(sharedPage);
+
+    await expect(sharedPage.locator('#btn-audio-toggle')).toBeVisible();
+
+    await sharedPage.reload({ waitUntil: 'networkidle' });
+    await expect(sharedPage.locator('#btn-audio-toggle')).toBeVisible();
+    await expect(sharedPage.locator('#btn-audio-toggle')).toHaveCount(1);
+
+    expect(errors).toEqual([]);
+  });
 });
 
 test.describe('parchment containment', () => {
