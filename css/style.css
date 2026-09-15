@@ -28,6 +28,15 @@ footer {
   background-color: var(--bg-medium);
 }
 
+header h1 {
+  color: var(--gold);
+}
+
+footer p,
+#intro-screen .container p {
+  color: var(--text-muted);
+}
+
 /* Responsive Layout Rules */
 html,
 body {
