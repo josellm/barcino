@@ -69,6 +69,10 @@ function renderOnboardingFlow(onJoinAdventure, onTeamNameSubmit) {
   step2.className = 'onboarding-step';
   step2.id = 'onboarding-step-2';
 
+  const promptText = document.createElement('p');
+  promptText.className = 'parchment-text';
+  promptText.textContent = '¿Cómo se llama vuestro equipo de detectives?';
+
   const teamInput = document.createElement('input');
   teamInput.id = 'input-team-name';
   teamInput.type = 'text';
@@ -82,7 +86,7 @@ function renderOnboardingFlow(onJoinAdventure, onTeamNameSubmit) {
   btnConfirm.id = 'btn-confirm-team';
   btnConfirm.type = 'button';
   btnConfirm.className = 'cta-button';
-  btnConfirm.textContent = 'Confirmar';
+  btnConfirm.textContent = 'Confirmar Equipo';
 
   btnConfirm.addEventListener('click', () => {
     const name = teamInput.value.trim();
@@ -96,6 +100,7 @@ function renderOnboardingFlow(onJoinAdventure, onTeamNameSubmit) {
     }
   });
 
+  step2.appendChild(promptText);
   step2.appendChild(teamInput);
   step2.appendChild(errorSpan);
   step2.appendChild(btnConfirm);
