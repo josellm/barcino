@@ -1,0 +1,39 @@
+{
+  "id": 1,
+  "name": "Palau de la Música Catalana",
+  "gemName": "Gema Modernista",
+  "gemIcon": "ruby",
+  "bgImage": "assets/img/palau-bg.jpg",
+  "witnesses": [
+    {
+      "id": "w1",
+      "name": "Lluís Domènech i Montaner",
+      "role": "Arquitecto",
+      "type": "true",
+      "dialogue": "Diseñé este palacio de la música con ladrillo visto, mosaicos de colores y esculturas dedicadas a la canción popular catalana."
+    },
+    {
+      "id": "w2",
+      "name": "Músico despistado",
+      "role": "Violinista",
+      "type": "clueless",
+      "dialogue": "Llego tarde al concierto de rock de esta noche... ¿alguien sabe dónde se compran los billetes de metro aquí dentro?"
+    },
+    {
+      "id": "w3",
+      "name": "Agente Encubierto",
+      "role": "Mercenario",
+      "type": "liar",
+      "dialogue": "Este edificio se construyó en el año 1400 como castillo medieval de piedra maciza sin ninguna ventana."
+    }
+  ],
+  "observationPuzzle": {
+    "question": "Observad la gran escultura en la esquina de la fachada principal (de Miquel Blay). ¿Qué figura preside el centro del grupo escultórico rodeada por el pueblo?",
+    "options": [
+      "Una figura hembra alegórica (La Cançó Popular)",
+      "Un dragón de San Jorge",
+      "Un rey con corona y espada"
+    ],
+    "correctIndex": 0
+  }
+}
