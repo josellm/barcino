@@ -36,6 +36,16 @@ const gameStateModule = (() => {
     saveToLocalStorage();
   }
 
+  function addGem(index) {
+    state.gems[index] = true;
+    saveToLocalStorage();
+    return { ...state };
+  }
+
+  function hasGem(index) {
+    return state.gems[index];
+  }
+
   return {
     getGameState: () => ({ ...state }),
     setTeamName: (name) => {
@@ -51,9 +61,11 @@ const gameStateModule = (() => {
     },
     saveToLocalStorage,
     loadFromLocalStorage,
-    advanceStage
+    advanceStage,
+    addGem,
+    hasGem
   };
 })();
 
-export const { getGameState, setTeamName, setStage, saveToLocalStorage, loadFromLocalStorage, advanceStage } = gameStateModule;
+export const { getGameState, setTeamName, setStage, saveToLocalStorage, loadFromLocalStorage, advanceStage, addGem, hasGem } = gameStateModule;
 
