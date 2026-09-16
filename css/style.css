@@ -209,6 +209,8 @@ body {
 
 /* Input fields inside the parchment content */
 .parchment-content input {
+  display: block;
+  width: 100%;
   background: rgba(255, 248, 230, 0.7);
   border: 1px solid #8b6914;
   border-radius: 4px;
@@ -233,6 +235,12 @@ body {
   min-width: 180px;
   max-width: 100%;
   box-sizing: border-box;
+}
+
+.parchment-content #btn-confirm-name {
+  width: 100%;
+  margin-right: 0;
+  margin-left: 0;
 }
 
 /* Mobile readability — reposition parchment overlay on small screens */

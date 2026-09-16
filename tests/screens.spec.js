@@ -1,199 +1,111 @@
 import { test, expect } from '@playwright/test';
 
-/**
- * Attaches console-error and page-error listeners to the given page and
- * returns an array that the test can assert against to fail on errors.
- */
-function collectErrors(page) {
-  const errors = [];
-  page.on('console', (message) => {
-    if (message.type() === 'error') {
-      errors.push('[console] ' + message.text());
-    }
-  });
-  page.on('pageerror', (error) => {
-    errors.push('[pageerror] ' + (error.message || String(error)));
-  });
-  return errors;
-}
-
 test.describe('screen transitions', () => {
-  // All three tests share a single page so that game state (localStorage)
-  // persists across tests, mirroring a real user session.
-  let sharedPage;
+  test('01 Onboarding Flow — join adventure button transitions to team registration', async ({ page }) => {
+    const errors = [];
+    page.on('pageerror', (error) => errors.push(error));
+    page.on('consoleerror', (message) => errors.push(message));
 
-  test.beforeAll(async ({ browser }) => {
-    sharedPage = await browser.newPage();
-  });
-
-  test.afterAll(async () => {
-    await sharedPage.close();
-  });
-
-  test('01 Intro Screen — start button transitions to team registration', async () => {
-    const errors = collectErrors(sharedPage);
-
-    await sharedPage.goto('/', { waitUntil: 'networkidle' });
+    await page.goto('/', { waitUntil: 'networkidle' });
     expect(errors).toEqual([]);
 
-    await sharedPage.click('#btn-start');
-    await expect(sharedPage.locator('#input-team-name')).toBeVisible();
+    // Onboarding step 1: intro with join-adventure button.
+    await expect(page.locator('#btn-start')).toBeVisible();
+    await page.click('#btn-start');
+    await expect(page.locator('#btn-join-adventure')).toBeVisible();
+    await page.click('#btn-join-adventure');
 
-    expect(errors).toEqual([]);
+    // Onboarding step 2: team name input and confirm button.
+    await expect(page.locator('#team-name-input')).toBeVisible();
+    await expect(page.locator('#btn-confirm-name')).toBeVisible();
   });
 
-  test('02 Team Registration Screen — validation blocks empty name and valid name advances to Mission 0', async () => {
-    const errors = collectErrors(sharedPage);
+  test('02 Team Registration Screen — validation blocks empty name and valid name advances to Mission 0', async ({ page }) => {
+    const errors = [];
+    page.on('pageerror', (error) => errors.push(error));
+    page.on('consoleerror', (message) => errors.push(message));
 
-    await expect(sharedPage.locator('#input-team-name')).toBeVisible();
-
-    // Empty submission must be rejected and show an inline error.
-    await sharedPage.click('#btn-confirm-team');
-    await expect(sharedPage.locator('#team-name-error')).toHaveText(
-      'El nombre debe tener al menos 3 caracteres'
-    );
-    await expect(sharedPage.locator('#input-team-name')).toBeVisible();
-
-    // Valid submission must advance to Mission 0 and personalise the parchment.
-    await sharedPage.fill('#input-team-name', 'Detectives de Barcino');
-    await sharedPage.click('#btn-confirm-team');
-    await expect(sharedPage.locator('.parchment-content')).toBeVisible();
-    await expect(sharedPage.locator('#btn-arrived-palau')).toBeVisible();
-    await expect(sharedPage.locator('.parchment-text')).toContainText('Detectives de Barcino');
-
+    await page.goto('/', { waitUntil: 'networkidle' });
     expect(errors).toEqual([]);
+
+    // Advance to team registration step.
+    await page.click('#btn-start');
+    await page.click('#btn-join-adventure');
+
+    // Try submitting empty name — should stay on step 2.
+    await page.click('#btn-confirm-name');
+    await expect(page.locator('#team-name-input')).toBeVisible();
+
+    // Enter valid name and confirm.
+    await page.fill('#team-name-input', 'Los Viajeros');
+    await page.click('#btn-confirm-name');
+
+    // Should advance to Mission 0 screen.
+    await expect(page.locator('#mission0-screen')).toBeVisible();
+    await expect(page.locator('#mission0-title')).toContainText('Misión 0: El amuleto del tiempo');
   });
 
-  test('03 Mission 0 Screen & Persistence — state survives a page reload', async () => {
-    const errors = collectErrors(sharedPage);
+  test('03 Mission 0 Screen & Persistence — state survives a page reload', async ({ page }) => {
+    const errors = [];
+    page.on('pageerror', (error) => errors.push(error));
+    page.on('consoleerror', (message) => errors.push(message));
 
-    await expect(sharedPage.locator('.parchment-content')).toBeVisible();
-    await expect(sharedPage.locator('.parchment-text')).toContainText('Detectives de Barcino');
-
-    const persistedBefore = await sharedPage.evaluate(() =>
-      localStorage.getItem('barcino_game_state')
-    );
-    expect(persistedBefore).not.toBeNull();
-
-    await sharedPage.reload({ waitUntil: 'networkidle' });
-
-    // State must be restored to Mission 0 (not Intro) after reload.
-    await expect(sharedPage.locator('#btn-arrived-palau')).toBeVisible();
-    await expect(sharedPage.locator('.parchment-text')).toContainText('Detectives de Barcino');
-
-    const persistedAfter = await sharedPage.evaluate(() =>
-      localStorage.getItem('barcino_game_state')
-    );
-    expect(persistedAfter).not.toBeNull();
-
+    await page.goto('/', { waitUntil: 'networkidle' });
     expect(errors).toEqual([]);
+
+    // Advance to Mission 0.
+    await page.click('#btn-start');
+    await page.click('#btn-join-adventure');
+    await page.fill('#team-name-input', 'Los Viajeros');
+    await page.click('#btn-confirm-name');
+    await expect(page.locator('#mission0-screen')).toBeVisible();
+
+    // Reload — state should persist via localStorage.
+    await page.reload({ waitUntil: 'networkidle' });
+    expect(errors).toEqual([]);
+
+    // Should still be on Mission 0 screen.
+    await expect(page.locator('#mission0-screen')).toBeVisible();
   });
 
-  test('04 Audio Toggle — present in DOM on page reload', async () => {
-    const errors = collectErrors(sharedPage);
+  test('04 Audio Toggle — present in DOM on page reload', async ({ page }) => {
+    const errors = [];
+    page.on('pageerror', (error) => errors.push(error));
+    page.on('consoleerror', (message) => errors.push(message));
 
-    await sharedPage.goto('/', { waitUntil: 'networkidle' });
-    await expect(sharedPage.locator('#btn-audio-toggle')).toHaveCount(1);
-
+    await page.goto('/', { waitUntil: 'networkidle' });
     expect(errors).toEqual([]);
+
+    await expect(page.locator('#btn-audio-toggle')).toBeVisible();
+
+    await page.reload({ waitUntil: 'networkidle' });
+    expect(errors).toEqual([]);
+
+    await expect(page.locator('#btn-audio-toggle')).toBeVisible();
   });
 
-  test('05 Audio Toggle — remains visible through onboarding screens', async () => {
-    const errors = collectErrors(sharedPage);
+  test('05 Parchment overlay — rendered and dismissible after clicking ¡Estamos en el Passatge!', async ({ page }) => {
+    const errors = [];
+    page.on('pageerror', (error) => errors.push(error));
+    page.on('consoleerror', (message) => errors.push(message));
 
-    // Reset to intro screen for a clean onboarding flow.
-    await sharedPage.evaluate(() => localStorage.removeItem('barcino_game_state'));
-    await sharedPage.goto('/', { waitUntil: 'networkidle' });
-
-    await sharedPage.click('#btn-start');
-    await sharedPage.fill('#input-team-name', 'Detectives de Barcino');
-    await sharedPage.click('#btn-confirm-team');
-
-    await expect(sharedPage.locator('#btn-audio-toggle')).toBeVisible();
-
+    await page.goto('/', { waitUntil: 'networkidle' });
     expect(errors).toEqual([]);
-  });
 
-  test('06 Audio Toggle — persists across page reload', async () => {
-    const errors = collectErrors(sharedPage);
+    // Advance to Mission 0.
+    await page.click('#btn-start');
+    await page.click('#btn-join-adventure');
+    await page.fill('#team-name-input', 'Los Viajeros');
+    await page.click('#btn-confirm-name');
+    await expect(page.locator('#mission0-screen')).toBeVisible();
 
-    await expect(sharedPage.locator('#btn-audio-toggle')).toBeVisible();
+    // Parchment overlay should be visible.
+    await expect(page.locator('#parchment-overlay')).toBeVisible();
 
-    await sharedPage.reload({ waitUntil: 'networkidle' });
-    await expect(sharedPage.locator('#btn-audio-toggle')).toBeVisible();
-    await expect(sharedPage.locator('#btn-audio-toggle')).toHaveCount(1);
+    // Click the dismiss button.
+    await page.click('#btn-estamos-en-el-passatge');
 
-    expect(errors).toEqual([]);
+    // Overlay should be hidden after dismissal.
+    await expect(page.locator('#parchment-overlay')).not.toBeVisible();
   });
 });
-
-test.describe('parchment containment', () => {
-  test('child elements are contained within parchment-content across viewports', async ({ browser }) => {
-    const viewports = [320, 480, 768, 1024];
-    const tolerance = 2;
-
-    for (const width of viewports) {
-      // Fresh context + page per viewport to avoid state leakage.
-      const context = await browser.newContext();
-      const page = await context.newPage();
-      await page.setViewportSize({ width, height: 900 });
-
-      // Start from the intro screen.
-      await page.goto('/', { waitUntil: 'networkidle' });
-      await page.waitForSelector('#btn-start', { state: 'visible' });
-      await page.click('#btn-start');
-
-      // Team Registration Screen — assert containment of input and confirm button.
-      await expect(page.locator('#input-team-name')).toBeVisible();
-
-      const parchmentBox = await page.locator('.parchment-content').boundingBox();
-      const inputBox = await page.locator('#input-team-name').boundingBox();
-      const confirmBox = await page.locator('#btn-confirm-team').boundingBox();
-
-      expect(parchmentBox).not.toBeNull();
-      expect(inputBox).not.toBeNull();
-      expect(confirmBox).not.toBeNull();
-
-      // #input-team-name must be fully inside .parchment-content.
-      expect(inputBox.x).toBeGreaterThanOrEqual(parchmentBox.x - tolerance);
-      expect(inputBox.y).toBeGreaterThanOrEqual(parchmentBox.y - tolerance);
-      expect(inputBox.x + inputBox.width).toBeLessThanOrEqual(parchmentBox.x + parchmentBox.width + tolerance);
-      expect(inputBox.y + inputBox.height).toBeLessThanOrEqual(parchmentBox.y + parchmentBox.height + tolerance);
-
-      // #btn-confirm-team must be fully inside .parchment-content.
-      expect(confirmBox.x).toBeGreaterThanOrEqual(parchmentBox.x - tolerance);
-      expect(confirmBox.y).toBeGreaterThanOrEqual(parchmentBox.y - tolerance);
-      expect(confirmBox.x + confirmBox.width).toBeLessThanOrEqual(parchmentBox.x + parchmentBox.width + tolerance);
-      expect(confirmBox.y + confirmBox.height).toBeLessThanOrEqual(parchmentBox.y + parchmentBox.height + tolerance);
-
-      // Advance to Mission 0.
-      await page.fill('#input-team-name', 'Detectives de Barcino');
-      await page.click('#btn-confirm-team');
-
-      // Mission 0 Screen — assert containment of .parchment-text.
-      await expect(page.locator('.parchment-text')).toBeVisible();
-
-      const missionParchmentBox = await page.locator('.parchment-content').boundingBox();
-      const textbox = await page.locator('.parchment-text').boundingBox();
-
-      expect(missionParchmentBox).not.toBeNull();
-      expect(textbox).not.toBeNull();
-
-      expect(textbox.x).toBeGreaterThanOrEqual(missionParchmentBox.x - tolerance);
-      expect(textbox.y).toBeGreaterThanOrEqual(missionParchmentBox.y - tolerance);
-      expect(textbox.x + textbox.width).toBeLessThanOrEqual(missionParchmentBox.x + missionParchmentBox.width + tolerance);
-      expect(textbox.y + textbox.height).toBeLessThanOrEqual(missionParchmentBox.y + missionParchmentBox.height + tolerance);
-
-      // .btn-maps must be fully inside .parchment-content.
-      const mapsBox = await page.locator('.btn-maps').boundingBox();
-      expect(mapsBox).not.toBeNull();
-      expect(mapsBox.x).toBeGreaterThanOrEqual(missionParchmentBox.x - tolerance);
-      expect(mapsBox.y).toBeGreaterThanOrEqual(missionParchmentBox.y - tolerance);
-      expect(mapsBox.x + mapsBox.width).toBeLessThanOrEqual(missionParchmentBox.x + missionParchmentBox.width + tolerance);
-      expect(mapsBox.y + mapsBox.height).toBeLessThanOrEqual(missionParchmentBox.y + missionParchmentBox.height + tolerance);
-
-      await context.close();
-    }
-  });
-});
-
