@@ -33,16 +33,17 @@ class AudioController {
 
     this._setupEventListeners();
     this._updateToggleIcon();
+    this.initialized = true;
 
-    // Set up autoplay fallback on reload when audio is not muted.
+    // Try to resume immediately after a reload. Browsers may reject this
+    // without a gesture, in which case the fallback listeners handle it.
     if (!this.muted) {
       const navEntry = performance.getEntriesByType('navigation')[0];
       if (navEntry && navEntry.type === 'reload') {
+        this.playMusic(this.trackUrl);
         this._setupAutoplayFallback();
       }
     }
-
-    this.initialized = true;
   }
 
   /**
@@ -120,10 +121,9 @@ class AudioController {
     }
     localStorage.setItem('audioMuted', String(this.muted));
 
-    // If we just unmuted and the audio source was never loaded
-    // (e.g. user muted before playMusic() was ever called, then reloaded),
-    // start playback now so the music actually plays.
-    if (!this.muted && this.audio && !this.audio.src) {
+    // A reload may have assigned the source before autoplay was rejected.
+    // Retry any paused track after the user's unmute gesture.
+    if (!this.muted && this.audio && this.audio.paused) {
       this.playMusic(this.trackUrl);
     }
 

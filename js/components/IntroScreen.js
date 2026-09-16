@@ -18,17 +18,13 @@ function renderIntroScreen(onStartCallback) {
   main.id = 'intro-screen';
 
   const scene = document.createElement('div');
-  scene.className = 'scene-container';
+  scene.className = 'container';
 
-  const parchmentContent = document.createElement('div');
-  parchmentContent.className = 'parchment-content';
-
-  const title = document.createElement('h1');
-  title.className = 'parchment-text';
-  title.textContent = 'El amuleto del tiempo';
-
-  parchmentContent.appendChild(title);
-  scene.appendChild(parchmentContent);
+  const bg = document.createElement('img');
+  bg.id = 'intro-bg';
+  bg.src = 'assets/img/intro-bg.jpg';
+  bg.alt = 'Intro background';
+  scene.appendChild(bg);
 
   const ActionBar = document.createElement('div');
   ActionBar.className = 'action-bar';
@@ -49,9 +45,8 @@ function renderIntroScreen(onStartCallback) {
   });
 
   ActionBar.appendChild(btnStart);
-
+  scene.appendChild(ActionBar);
   main.appendChild(scene);
-  main.appendChild(ActionBar);
 
   return main;
 }

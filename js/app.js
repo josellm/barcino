@@ -1,3 +1,4 @@
+import { renderIntroScreen } from './components/IntroScreen.js';
 import { renderOnboardingFlow } from './components/OnboardingFlow.js';
 import { renderMission0Screen } from './components/Mission0Screen.js';
 import { getGameState, setTeamName, advanceStage } from './gameState.js';
@@ -15,21 +16,23 @@ function render() {
   const state = getGameState();
 
   if (state.currentStage === 0) {
-    const onboarding = renderOnboardingFlow(
-      () => {
-        // Adventure begun — hook for any side effects (no-op for now).
-      },
-      (name) => {
-        try {
-          setTeamName(name);
-          advanceStage();
-          render();
-        } catch (e) {
-          console.error('Failed to set team name:', e);
+    const introScreen = renderIntroScreen(() => {
+      introScreen.remove();
+      const onboarding = renderOnboardingFlow(
+        () => {},
+        (name) => {
+          try {
+            setTeamName(name);
+            advanceStage();
+            render();
+          } catch (e) {
+            console.error('Failed to set team name:', e);
+          }
         }
-      }
-    );
-    app.appendChild(onboarding);
+      );
+      app.appendChild(onboarding);
+    });
+    app.appendChild(introScreen);
   } else if (state.currentStage === 1) {
     const missionScreen = renderMission0Screen(state.teamName, () => {
       advanceStage();

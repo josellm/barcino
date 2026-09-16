@@ -10,6 +10,8 @@ test.describe('screen transitions', () => {
     expect(errors).toEqual([]);
 
     // Onboarding step 1: intro with join-adventure button.
+    await expect(page.locator('#btn-start')).toBeVisible();
+    await page.click('#btn-start');
     await expect(page.locator('#btn-join-adventure')).toBeVisible();
     await page.click('#btn-join-adventure');
 
@@ -27,6 +29,7 @@ test.describe('screen transitions', () => {
     expect(errors).toEqual([]);
 
     // Advance to team registration step.
+    await page.click('#btn-start');
     await page.click('#btn-join-adventure');
 
     // Try submitting empty name — should stay on step 2.
@@ -51,6 +54,7 @@ test.describe('screen transitions', () => {
     expect(errors).toEqual([]);
 
     // Advance to Mission 0.
+    await page.click('#btn-start');
     await page.click('#btn-join-adventure');
     await page.fill('#team-name-input', 'Los Viajeros');
     await page.click('#btn-confirm-name');
@@ -89,6 +93,7 @@ test.describe('screen transitions', () => {
     expect(errors).toEqual([]);
 
     // Advance to Mission 0.
+    await page.click('#btn-start');
     await page.click('#btn-join-adventure');
     await page.fill('#team-name-input', 'Los Viajeros');
     await page.click('#btn-confirm-name');
