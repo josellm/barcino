@@ -45,9 +45,8 @@ function renderIntroScreen(onStartCallback) {
   });
 
   ActionBar.appendChild(btnStart);
-
+  scene.appendChild(ActionBar);
   main.appendChild(scene);
-  main.appendChild(ActionBar);
 
   return main;
 }

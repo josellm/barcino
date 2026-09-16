@@ -51,9 +51,28 @@ A mysterious relic thief has stolen the 5 gems of the **Amulet of Barcino**, alt
 ├── js/
 │   ├── app.js              # Main WebApp controller and UI rendering
 │   ├── gameState.js        # State management (gems, team data, progress)
-│   └── audio.js            # Music and sound effects player
+│   ├── audio.js            # Music and sound effects player
+│   └── components/
+│       ├── IntroScreen.js             # Adventure welcome screen
+│       ├── TeamRegistrationScreen.js  # Team name registration and validation
+│       └── Mission0Screen.js           # First mission briefing and location link
 ├── assets/
 │   ├── img/                # Scenarios, characters, and gem interface assets
 │   └── audio/              # Soundtrack and SFX
 └── data/
     └── stages.json         # Data structure for locations, dialogues, and puzzles
+
+
+## 🖥️ Screen Components
+
+The screen components are small vanilla JavaScript render functions. Each one
+creates and returns a `<main>` element, while `app.js` controls which screen is
+shown according to the current game stage.
+
+* **`renderIntroScreen(onStartCallback)`**: Displays the adventure introduction
+  and invokes the callback when the player starts.
+* **`renderTeamRegistrationScreen(onSubmitCallback)`**: Collects and validates
+  the team name before passing it to the game-state controller.
+* **`renderMission0Screen(teamName, onArrivedCallback)`**: Shows the personalised
+  Palau de la Música Catalana briefing, provides a map link, and advances when
+  the team arrives.
