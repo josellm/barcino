@@ -57,64 +57,68 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
 
   // --- Phase 1: Interrogation ---
   function renderPhase1() {
-    const content = document.createElement('div');
-    content.className = 'parchment-content';
+    const hotspots = document.createElement('div');
+    hotspots.className = 'witness-hotspots';
 
-    const heading = document.createElement('h2');
-    heading.textContent = stageData.name;
-    content.appendChild(heading);
+    stageData.witnesses.slice(0, 3).forEach(function (witness, index) {
+      const hotspot = document.createElement('button');
+      hotspot.type = 'button';
+      hotspot.className = 'witness-hotspot witness-hotspot-' + index;
+      hotspot.setAttribute('aria-label', 'Hablar con ' + witness.name);
 
-    const witnessList = document.createElement('div');
-    witnessList.className = 'witness-list';
-
-    stageData.witnesses.forEach(function (witness) {
-      const card = document.createElement('div');
-      card.className = 'witness-card';
-
-      const nameEl = document.createElement('h3');
-      nameEl.textContent = witness.name;
-
-      const roleEl = document.createElement('p');
-      roleEl.className = 'witness-role';
-      roleEl.textContent = witness.role;
-
-      const dialogueEl = document.createElement('p');
-      dialogueEl.className = 'witness-dialogue';
-      dialogueEl.textContent = witness.dialogue;
-
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'cta-button';
-      btn.textContent = 'Interrogate';
-      btn.addEventListener('click', function (e) {
-        e.preventDefault();
-        if (witness.type === 'true') {
-          feedback = '';
-          phase = 2;
-          renderPhase();
-        } else {
-          feedback = 'Esa testigo no es fiable. Intenta de nuevo.';
-          renderPhase();
-        }
+      hotspot.addEventListener('click', function (event) {
+        event.stopPropagation();
+        showWitnessDialogue(witness, index);
       });
 
-      card.appendChild(nameEl);
-      card.appendChild(roleEl);
-      card.appendChild(dialogueEl);
-      card.appendChild(btn);
-      witnessList.appendChild(card);
+      hotspots.appendChild(hotspot);
     });
 
-    content.appendChild(witnessList);
+    return hotspots;
+  }
 
-    if (feedback) {
-      const warning = document.createElement('p');
-      warning.className = 'error';
-      warning.textContent = feedback;
-      content.appendChild(warning);
+  function showWitnessDialogue(witness, index) {
+    const existingDialogue = scene.querySelector('.witness-dialogue-box');
+    if (existingDialogue) {
+      existingDialogue.remove();
     }
 
-    return content;
+    const dialogue = document.createElement('aside');
+    dialogue.className = 'witness-dialogue-box witness-dialogue-' + index;
+    dialogue.addEventListener('click', function (event) {
+      event.stopPropagation();
+    });
+
+    const nameEl = document.createElement('h2');
+    nameEl.textContent = witness.name;
+    dialogue.appendChild(nameEl);
+
+    const roleEl = document.createElement('p');
+    roleEl.className = 'witness-role';
+    roleEl.textContent = witness.role;
+    dialogue.appendChild(roleEl);
+
+    const dialogueEl = document.createElement('p');
+    dialogueEl.className = 'witness-dialogue';
+    dialogueEl.textContent = witness.dialogue;
+    dialogue.appendChild(dialogueEl);
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'cta-button';
+    btn.textContent = 'Interrogar';
+    btn.addEventListener('click', function () {
+      if (witness.type === 'true') {
+        feedback = '';
+        phase = 2;
+      } else {
+        feedback = 'Esa testigo no es fiable. Intenta de nuevo.';
+      }
+      renderPhase();
+    });
+    dialogue.appendChild(btn);
+
+    scene.appendChild(dialogue);
   }
 
   // --- Phase 2: Observation Puzzle ---
@@ -172,7 +176,7 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
   // --- Phase 3: Stage Complete ---
   function renderPhase3() {
     const content = document.createElement('div');
-    content.className = 'parchment-content';
+    content.className = 'parchment-content stage-complete-content';
 
     const successEl = document.createElement('h2');
     successEl.textContent = '¡Gema desbloqueada!';
@@ -189,6 +193,7 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
     transitionBtn.textContent = 'Ir a Santa Ana (Stage 2)';
     transitionBtn.addEventListener('click', function (e) {
       e.preventDefault();
+      addGem(stageData.id - 1);
       if (typeof onStageComplete === 'function') {
         onStageComplete();
       }
@@ -222,7 +227,6 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
     continueBtn.textContent = 'Continuar';
     continueBtn.addEventListener('click', function () {
       modal.remove();
-      addGem(stageData.id - 1);
       phase = 3;
       renderPhase();
     });
@@ -253,6 +257,23 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
 
     if (phaseContent) {
       scene.appendChild(phaseContent);
+    }
+
+    if (phase === 1 && feedback) {
+      const warning = document.createElement('p');
+      warning.className = 'witness-feedback error';
+      warning.textContent = feedback;
+      scene.appendChild(warning);
+    }
+
+    if (phase === 1) {
+      scene.addEventListener('click', function closeDialogue(event) {
+        const dialogue = scene.querySelector('.witness-dialogue-box');
+        if (dialogue && !dialogue.contains(event.target)) {
+          dialogue.remove();
+          event.stopPropagation();
+        }
+      }, true);
     }
   }
 

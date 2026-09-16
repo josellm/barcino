@@ -1,6 +1,7 @@
 import { renderIntroScreen } from './components/IntroScreen.js';
 import { renderOnboardingFlow } from './components/OnboardingFlow.js';
 import { renderMission0Screen } from './components/Mission0Screen.js';
+import { renderStageScreen } from './components/StageScreen.js';
 import { renderAmuletBar, mountAmuletBar } from './components/AmuletBar.js';
 import { getGameState, setTeamName, advanceStage } from './gameState.js';
 
@@ -51,20 +52,20 @@ function render() {
     });
     app.appendChild(introScreen);
   } else if (state.currentStage === 1) {
-    // Mission 0: amulet puzzle screen.
+    // Mission 0: briefing screen before entering the current stage.
     renderAmuletBar();
-    const mission0Screen = renderMission0Screen(function onMission0Complete() {
+    const mission0Screen = renderMission0Screen(state.teamName, function onMission0Complete() {
       advanceStage();
       render();
     });
     app.appendChild(mission0Screen);
-  } else if (state.currentStage === 2) {
+  } else if (state.currentStage >= 2) {
     // Render amulet bar in the global UI header.
     renderAmuletBar();
 
-    loadStageData(2)
+    loadStageData(state.currentStage)
       .then(function (stageData) {
-        const stageScreen = renderStageScreen(2, stageData, function onStageComplete() {
+        const stageScreen = renderStageScreen(state.currentStage, stageData, function onStageComplete() {
           advanceStage();
           render();
         });
@@ -88,6 +89,8 @@ function render() {
     placeholder.appendChild(heading);
     app.appendChild(placeholder);
   }
+
+  mountAmuletBar();
 }
 
 document.addEventListener('DOMContentLoaded', () => {

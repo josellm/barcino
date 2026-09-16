@@ -9,21 +9,16 @@ test.describe('Stage 1', () => {
     await page.goto('/', { waitUntil: 'networkidle' });
     expect(errors).toEqual([]);
 
-    // Advance through onboarding to the mission screen.
     await page.click('#btn-start');
     await page.click('#btn-join-adventure');
     await page.fill('#team-name-input', 'Los Viajeros');
     await page.click('#btn-confirm-name');
 
-    // Now on Mission 0 screen (first stage with witnesses)
     await expect(page.locator('#mission0-screen')).toBeVisible();
+    await page.click('#btn-arrived-passatge');
 
-    // Assert the 3 witness cards (by their names) are visible — scope to headings to avoid strict-mode collision with puzzle labels
-    await expect(page.locator('.witness-card h3').filter({ hasText: 'Lluís Domènech i Montaner' })).toBeVisible();
-    await expect(page.locator('.witness-card h3').filter({ hasText: 'Músico despistado' })).toBeVisible();
-    await expect(page.locator('.witness-card h3').filter({ hasText: 'Agente Encubierto' })).toBeVisible();
-
-    // Amulet bar should be present in the global UI
+    await expect(page.locator('#stage-screen')).toBeVisible();
+    await expect(page.locator('.witness-hotspot')).toHaveCount(3);
     await expect(page.locator('#amulet-bar')).toBeVisible();
     await expect(page.locator('.gem-slot')).toHaveCount(5);
   });
@@ -36,31 +31,59 @@ test.describe('Stage 1', () => {
     await page.goto('/', { waitUntil: 'networkidle' });
     expect(errors).toEqual([]);
 
-    // Advance to Mission 0 screen.
     await page.click('#btn-start');
     await page.click('#btn-join-adventure');
     await page.fill('#team-name-input', 'Los Viajeros');
     await page.click('#btn-confirm-name');
 
     await expect(page.locator('#mission0-screen')).toBeVisible();
+    await page.click('#btn-arrived-passatge');
 
-    // Click the liar witness (Agente Encubierto) and its 'Interrogate' button.
-    const liarCard = page.locator('.witness-card').filter({ hasText: 'Agente Encubierto' });
-    await liarCard.locator('.cta-button').click();
+    await page.getByRole('button', { name: 'Hablar con Agente Encubierto' }).click();
+    await page.locator('.witness-dialogue-box .cta-button').click();
+    await expect(page.getByText(/no es fiable|Esa testigo no es fiable/i)).toBeVisible();
 
-    // Assert a warning message appears (text contains 'no es fiable')
-    await expect(page.getByText(/no es fiable/)).toBeVisible();
+    await page.getByRole('button', { name: 'Hablar con Lluís Domènech i Montaner' }).click();
+    await page.locator('.witness-dialogue-box .cta-button').click();
 
-    // Now click the true witness to reach the observation puzzle phase
-    const trueCard = page.locator('.witness-card').filter({ hasText: 'Lluís Domènech i Montaner' });
-    await trueCard.locator('.cta-button').click();
-
-    // Assert the puzzle container becomes visible with the observation question text
-    await expect(page.locator('.puzzle-container')).toBeVisible();
-    await expect(page.locator('.puzzle-instruction')).toContainText('Una figura hembra alegórica');
+    await expect(page.locator('.puzzle-options')).toBeVisible();
+    await expect(page.locator('.puzzle-option')).toHaveCount(3);
   });
 
-  test('Correct puzzle answer advances from Mission 0 screen', async ({ page }) => {
+  test('Gem unlock is only marked after the stage is actually completed', async ({ page }) => {
+    const errors = [];
+    page.on('pageerror', (error) => errors.push(error));
+    page.on('consoleerror', (message) => errors.push(message));
+
+    await page.addInitScript(() => {
+      localStorage.setItem('barcino_game_state', JSON.stringify({
+        teamName: 'Los Viajeros',
+        currentStage: 2,
+        gems: [false, false, false, false, false]
+      }));
+    });
+
+    await page.goto('/', { waitUntil: 'networkidle' });
+    expect(errors).toEqual([]);
+
+    await expect(page.locator('#amulet-bar')).toBeVisible();
+    await expect(page.locator('#amulet-bar .gem-slot.collected')).toHaveCount(0);
+
+    await page.locator('.witness-hotspot').first().click();
+    await page.locator('.witness-dialogue-box .cta-button').click();
+
+    await expect(page.locator('.puzzle-options')).toBeVisible();
+    await page.getByRole('radio', { name: 'Una figura hembra alegórica' }).check();
+
+    await page.getByRole('button', { name: 'Continuar' }).click();
+    await expect(page.getByText('¡Gema desbloqueada!')).toBeVisible();
+    await expect(page.locator('#amulet-bar .gem-slot.collected')).toHaveCount(0);
+
+    await page.getByRole('button', { name: /Ir a Santa Ana/i }).click();
+    await expect(page.locator('#amulet-bar .gem-slot.collected')).toHaveCount(1);
+  });
+
+  test('Correct puzzle answer marks the gem only when the stage is fully completed', async ({ page }) => {
     const errors = [];
     page.on('pageerror', (error) => errors.push(error));
     page.on('consoleerror', (message) => errors.push(message));
@@ -68,29 +91,24 @@ test.describe('Stage 1', () => {
     await page.goto('/', { waitUntil: 'networkidle' });
     expect(errors).toEqual([]);
 
-    // Advance to Mission 0 screen.
     await page.click('#btn-start');
     await page.click('#btn-join-adventure');
     await page.fill('#team-name-input', 'Los Viajeros');
     await page.click('#btn-confirm-name');
 
     await expect(page.locator('#mission0-screen')).toBeVisible();
+    await page.click('#btn-arrived-passatge');
 
-    // Click the true witness to reach the observation puzzle
-    const trueCard = page.locator('.witness-card').filter({ hasText: 'Lluís Domènech i Montaner' });
-    await trueCard.locator('.cta-button').click();
+    await page.getByRole('button', { name: 'Hablar con Lluís Domènech i Montaner' }).click();
+    await page.locator('.witness-dialogue-box .cta-button').click();
 
-    // Select the correct option (index 0: 'Una figura hembra alegórica...')
-    await page.locator('#puzzle-opt-0').check();
+    await page.locator('input[type="radio"][value="0"]').check();
+    await page.getByRole('button', { name: 'Continuar' }).click();
 
-    // Submit the puzzle
-    await page.locator('.puzzle-cta').click();
+    await expect(page.locator('#amulet-bar .gem-slot.collected')).toHaveCount(0);
+    await expect(page.getByText('¡Gema desbloqueada!')).toBeVisible();
 
-    // After solving, the app attempts to advance to the next stage.
-    // The mission0 screen should no longer be visible.
-    await expect(page.locator('#mission0-screen')).not.toBeVisible({ timeout: 10000 });
-
-    // The amulet bar should still be present in the global UI.
-    await expect(page.locator('#amulet-bar')).toBeVisible();
+    await page.getByRole('button', { name: /Ir a Santa Ana/i }).click();
+    await expect(page.locator('#amulet-bar .gem-slot.collected')).toHaveCount(1);
   });
 });

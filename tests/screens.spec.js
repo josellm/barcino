@@ -43,7 +43,8 @@ test.describe('screen transitions', () => {
 
     // Should advance to Mission 0 screen.
     await expect(page.locator('#mission0-screen')).toBeVisible();
-    await expect(page.locator('#mission0-screen .puzzle-container h3')).toContainText('El Enigma de la Amuleta');
+    await expect(page.locator('#mission0-screen .parchment-text')).toContainText('¡Excelente, Los Viajeros!');
+    await expect(page.locator('#btn-arrived-passatge')).toBeVisible();
   });
 
   test('03 Mission 0 Screen & Persistence — state survives a page reload', async ({ page }) => {

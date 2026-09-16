@@ -1,133 +1,55 @@
-export function renderMission0Screen(onComplete) {
-  const screen = document.createElement('div');
-  screen.id = 'mission0-screen';
-  screen.className = 'scene-container';
+/**
+ * Mission0Screen — starts the adventure and leads into the first stage.
+ *
+ * This is the briefing screen shown immediately after the team name is set.
+ * It presents the locale introduction, a map link, and the "arrived" action
+ * that advances the game to the current stage screen.
+ */
+function renderMission0Screen(teamName, onArrivedCallback) {
+  const main = document.createElement('main');
+  main.id = 'mission0-screen';
 
-  // Witness cards
-  const witnesses = [
-    { name: 'Lluís Domènech i Montaner', liar: false },
-    { name: 'Agente Encubierto', liar: true },
-    { name: 'Músico despistado', liar: false }
-  ];
+  const scene = document.createElement('div');
+  scene.className = 'scene-container';
 
-  const witnessContainer = document.createElement('div');
-  witnessContainer.className = 'witness-container';
+  const parchmentContent = document.createElement('div');
+  parchmentContent.className = 'parchment-content';
 
-  witnesses.forEach((w) => {
-    const card = document.createElement('div');
-    card.className = 'witness-card';
-    card.dataset.name = w.name;
+  const text = document.createElement('p');
+  text.className = 'parchment-text';
 
-    const nameEl = document.createElement('h3');
-    nameEl.textContent = w.name;
-    card.appendChild(nameEl);
+  const greeting = teamName
+    ? '¡Excelente, ' + teamName + '! El primer rastro nos lleva a la entrada del Passatge de les Manufactures. Diríos allí para adentraros en el paso hacia el Palau...'
+    : '¡Excelente! El primer rastro nos lleva a la entrada del Passatge de les Manufactures. Diríos allí para adentraros en el paso hacia el Palau...';
+  text.textContent = greeting;
 
-    const cta = document.createElement('button');
-    cta.className = 'cta-button';
-    cta.textContent = 'Interrogate';
-    cta.addEventListener('click', () => {
-      // Reset previous states
-      document.querySelectorAll('.witness-card').forEach(c => {
-        c.classList.remove('selected', 'liar');
-      });
+  const mapsLink = document.createElement('a');
+  mapsLink.className = 'btn-maps';
+  mapsLink.href = 'https://maps.google.com/?q=Passatge+de+les+Manufactures+Barcelona';
+  mapsLink.target = '_blank';
+  mapsLink.rel = 'noopener noreferrer';
+  mapsLink.textContent = 'Ver ubicación en Google Maps';
 
-      if (w.liar) {
-        card.classList.add('selected', 'liar');
-        warningEl.textContent = 'Este testigo no es fiable. Busca otro.';
-        warningEl.style.display = 'block';
-        puzzleContainer.style.display = 'none';
-      } else {
-        card.classList.add('selected');
-        warningEl.textContent = '';
-        warningEl.style.display = 'none';
-        puzzleContainer.style.display = 'block';
-      }
-    });
-    card.appendChild(cta);
-    witnessContainer.appendChild(card);
-  });
+  const btnArrived = document.createElement('button');
+  btnArrived.id = 'btn-arrived-passatge';
+  btnArrived.type = 'button';
+  btnArrived.className = 'cta-button';
+  btnArrived.textContent = '¡Estamos en el Passatge!';
 
-  // Warning element
-  const warningEl = document.createElement('span');
-  warningEl.className = 'warning';
-  warningEl.style.display = 'none';
-
-  // Puzzle container
-  const puzzleContainer = document.createElement('div');
-  puzzleContainer.className = 'puzzle-container';
-  puzzleContainer.style.display = 'none';
-
-  const puzzleTitle = document.createElement('h3');
-  puzzleTitle.textContent = 'El Enigma de la Amuleta';
-  puzzleContainer.appendChild(puzzleTitle);
-
-  const instruction = document.createElement('p');
-  instruction.className = 'puzzle-instruction';
-  instruction.textContent = 'Una figura hembra alegórica preside el templo. ¿Cuál es la respuesta correcta?';
-  puzzleContainer.appendChild(instruction);
-
-  const options = [
-    { label: 'Una figura hembra alegórica', value: 'a' },
-    { label: 'Lluís Domènech i Montaner', value: 'b' },
-    { label: 'Agente Encubierto', value: 'c' }
-  ];
-
-  const optionsContainer = document.createElement('div');
-  optionsContainer.className = 'puzzle-options';
-
-  options.forEach((opt, idx) => {
-    const optEl = document.createElement('div');
-    optEl.className = 'puzzle-option';
-
-    const radio = document.createElement('input');
-    radio.type = 'radio';
-    radio.id = `puzzle-opt-${idx}`;
-    radio.name = 'puzzle';
-    radio.value = opt.value;
-
-    const label = document.createElement('label');
-    label.htmlFor = `puzzle-opt-${idx}`;
-    label.textContent = opt.label;
-
-    optEl.appendChild(radio);
-    optEl.appendChild(label);
-    optionsContainer.appendChild(optEl);
-  });
-
-  puzzleContainer.appendChild(optionsContainer);
-
-  const submitBtn = document.createElement('button');
-  submitBtn.className = 'puzzle-cta';
-  submitBtn.textContent = 'Resolver';
-  submitBtn.addEventListener('click', () => {
-    const selected = document.querySelector('input[name="puzzle"]:checked');
-    if (!selected) return;
-
-    if (selected.value === 'a') {
-      gemEl.classList.add('gem-earned');
-      const slots = document.querySelectorAll('.amulet-slot');
-      if (slots.length > 0) slots[0].classList.add('active');
-      const amuletBar = document.getElementById('amulet-bar');
-      if (amuletBar) amuletBar.classList.add('active');
-      submitBtn.textContent = '¡Correcto!';
-      submitBtn.disabled = true;
-      setTimeout(() => {
-        if (onComplete) onComplete();
-      }, 1500);
-    } else {
-      submitBtn.textContent = 'Incorrecto, inténtalo de nuevo';
+  btnArrived.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (typeof onArrivedCallback === 'function') {
+      onArrivedCallback();
     }
   });
-  puzzleContainer.appendChild(submitBtn);
 
-  // Gem element
-  const gemEl = document.createElement('div');
-  gemEl.className = 'gem';
+  parchmentContent.appendChild(text);
+  parchmentContent.appendChild(mapsLink);
+  parchmentContent.appendChild(btnArrived);
+  scene.appendChild(parchmentContent);
+  main.appendChild(scene);
 
-  screen.appendChild(witnessContainer);
-  screen.appendChild(warningEl);
-  screen.appendChild(gemEl);
-  screen.appendChild(puzzleContainer);
-
-  return screen;
+  return main;
 }
+
+export { renderMission0Screen };

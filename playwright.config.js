@@ -6,10 +6,10 @@ export default defineConfig({
   },
   testDir: 'tests',
   webServer: {
-    command: 'npx serve . -p 8080',
-    port: 8080,
+    command: 'npx serve . -l 8080',
+    url: 'http://localhost:8080',
     timeout: 120000,
-    reuseExistingServer: true,
+    reuseExistingServer: !process.env.CI,
   },
 });
 

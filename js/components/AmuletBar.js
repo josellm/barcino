@@ -17,6 +17,7 @@ import { getGameState } from '../gameState.js';
 function renderAmuletBar() {
   const bar = document.createElement('div');
   bar.id = 'amulet-bar';
+  bar.className = 'amulet-bar';
 
   const state = getGameState();
 
