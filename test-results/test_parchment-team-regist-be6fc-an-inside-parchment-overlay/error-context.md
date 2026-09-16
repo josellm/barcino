@@ -6,8 +6,8 @@
 
 # Test info
 
-- Name: test_parchment.spec.ts >> maps button containment >> .btn-maps link is within parchment bounds
-- Location: tests/test_parchment.spec.ts:60:3
+- Name: test_parchment.spec.ts >> team registration error handling >> invalid characters show .error span inside parchment overlay
+- Location: tests/test_parchment.spec.ts:31:3
 
 # Error details
 
@@ -52,7 +52,8 @@ Call log:
   29 | 
   30 | test.describe('team registration error handling', () => {
   31 |   test('invalid characters show .error span inside parchment overlay', async ({ page }) => {
-  32 |     await page.goto('/');
+> 32 |     await page.goto('/');
+     |                ^ Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:8080/
   33 |     await page.click('#btn-start');
   34 |     await page.click('#btn-join-adventure');
   35 |     await expect(page.locator('#team-name-input')).toBeVisible();
@@ -81,8 +82,7 @@ Call log:
   58 | 
   59 | test.describe('maps button containment', () => {
   60 |   test('.btn-maps link is within parchment bounds', async ({ page }) => {
-> 61 |     await page.goto('/');
-     |                ^ Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:8080/
+  61 |     await page.goto('/');
   62 |     await page.click('#btn-start');
   63 |     await page.click('#btn-join-adventure');
   64 | 

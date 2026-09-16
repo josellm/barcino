@@ -6,8 +6,8 @@
 
 # Test info
 
-- Name: test_parchment.spec.ts >> maps button containment >> .btn-maps link is within parchment bounds
-- Location: tests/test_parchment.spec.ts:60:3
+- Name: test_parchment.spec.ts >> parchment scrollability and containment >> .parchment-content has scrollable overflow and stays within .scene-container
+- Location: tests/test_parchment.spec.ts:4:3
 
 # Error details
 
@@ -25,7 +25,8 @@ Call log:
   2  | 
   3  | test.describe('parchment scrollability and containment', () => {
   4  |   test('.parchment-content has scrollable overflow and stays within .scene-container', async ({ page }) => {
-  5  |     await page.goto('/');
+> 5  |     await page.goto('/');
+     |                ^ Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:8080/
   6  |     await page.click('#btn-start');
   7  |     await page.click('#btn-join-adventure');
   8  |     await expect(page.locator('#team-name-input')).toBeVisible();
@@ -81,8 +82,7 @@ Call log:
   58 | 
   59 | test.describe('maps button containment', () => {
   60 |   test('.btn-maps link is within parchment bounds', async ({ page }) => {
-> 61 |     await page.goto('/');
-     |                ^ Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:8080/
+  61 |     await page.goto('/');
   62 |     await page.click('#btn-start');
   63 |     await page.click('#btn-join-adventure');
   64 | 
