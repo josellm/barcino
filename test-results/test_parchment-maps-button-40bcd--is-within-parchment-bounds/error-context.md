@@ -12,10 +12,38 @@
 # Error details
 
 ```
-Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:8080/
-Call log:
-  - navigating to "http://localhost:8080/", waiting until "load"
+Error: expect(locator).toBeVisible() failed
 
+Locator: locator('.btn-maps')
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" locator('.btn-maps') with timeout 5000ms
+  - waiting for locator('.btn-maps')
+
+```
+
+```yaml
+- banner:
+  - button "Toggle Audio": 🔊
+- main:
+  - main:
+    - heading "Palau de la Música Catalana" [level=2]
+    - heading "Lluís Domènech i Montaner" [level=3]
+    - paragraph: Arquitecto
+    - paragraph: Diseñé este palacio de la música con ladrillo visto, mosaicos de colores y esculturas dedicadas a la canción popular catalana.
+    - button "Interrogate"
+    - heading "Músico despistado" [level=3]
+    - paragraph: Violinista
+    - paragraph: Llego tarde al concierto de rock de esta noche... ¿alguien sabe dónde se compran los billetes de metro aquí dentro?
+    - button "Interrogate"
+    - heading "Agente Encubierto" [level=3]
+    - paragraph: Mercenario
+    - paragraph: Este edificio se construyó en el año 1400 como castillo medieval de piedra maciza sin ninguna ventana.
+    - button "Interrogate"
+- contentinfo
 ```
 
 # Test source
@@ -81,8 +109,7 @@ Call log:
   58 | 
   59 | test.describe('maps button containment', () => {
   60 |   test('.btn-maps link is within parchment bounds', async ({ page }) => {
-> 61 |     await page.goto('/');
-     |                ^ Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:8080/
+  61 |     await page.goto('/');
   62 |     await page.click('#btn-start');
   63 |     await page.click('#btn-join-adventure');
   64 | 
@@ -90,7 +117,8 @@ Call log:
   66 |     await page.fill('#team-name-input', 'Detectives de Barcino');
   67 |     await page.click('#btn-confirm-name');
   68 | 
-  69 |     await expect(page.locator('.btn-maps')).toBeVisible();
+> 69 |     await expect(page.locator('.btn-maps')).toBeVisible();
+     |                                             ^ Error: expect(locator).toBeVisible() failed
   70 | 
   71 |     const mapsBox = await page.locator('.btn-maps').boundingBox();
   72 |     const parchmentBox = await page.locator('.parchment-content').boundingBox();

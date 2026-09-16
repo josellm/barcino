@@ -367,3 +367,174 @@ body {
 .gem-slot.collected .gem-icon {
   filter: grayscale(0) brightness(1.2) drop-shadow(0 0 4px rgba(212, 175, 55, 0.8));
 }
+
+/* Stage screen — full-screen scene with background image and parchment dialogue overlay */
+.stage-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-dark);
+}
+
+.stage-screen .scene-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  margin: 0;
+  border-radius: 0;
+}
+
+.stage-screen .scene-container .bg-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Parchment content overlay for dialogues inside the stage screen */
+.stage-screen .parchment-content {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Witness card — evidence display with hover lift */
+.witness-card {
+  border: 2px solid var(--brass);
+  border-radius: 6px;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  background: linear-gradient(135deg, #f5e6c8 0%, #e8d5a3 100%);
+  color: #2b1d0c;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.1s;
+}
+
+.witness-card:hover {
+  box-shadow: var(--glow), 0 4px 12px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Puzzle option — radio-button group layout */
+.puzzle-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--brass);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.puzzle-option:hover {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: var(--gold);
+}
+
+.puzzle-option input[type="radio"] {
+  accent-color: var(--gold);
+  cursor: pointer;
+}
+
+/* Gem modal overlay — centered pop-up with animation */
+.gem-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+  animation: gem-modal-fade 0.4s ease-out;
+}
+
+.gem-modal .modal-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5e6c8 0%, #e8d5a3 100%);
+  border: 3px solid var(--brass);
+  border-radius: 8px;
+  color: #2b1d0c;
+  max-width: 90vw;
+  text-align: center;
+}
+
+.gem-modal .gem-icon {
+  font-size: 3rem;
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.8));
+}
+
+.gem-modal .modal-label {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--gold);
+}
+
+@keyframes gem-modal-fade {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Phase indicator and feedback message — warning and success colors */
+.phase-indicator,
+.feedback-message {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+  text-align: center;
+  transition: opacity 0.3s;
+}
+
+.phase-indicator.warning,
+.feedback-message.warning {
+  background: var(--accent);
+  color: var(--text-light);
+}
+
+.phase-indicator.success,
+.feedback-message.success {
+  background: var(--gold);
+  color: #2b1d0c;
+}
+
+/* Transition button — cta-button compatible */
+.transition-button {
+  display: inline-block;
+  margin: 0 auto;
+  padding: 16px 48px;
+  font-size: 1.2rem;
+  background: var(--accent);
+  color: var(--text-light);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.transition-button:hover {
+  background: #ff5a75;
+}
+
+.transition-button:focus {
+  outline: 2px solid var(--gold);
+  transition: background 0.3s, outline 0.2s;
+}
