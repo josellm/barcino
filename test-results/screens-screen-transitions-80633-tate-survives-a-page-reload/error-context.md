@@ -6,8 +6,8 @@
 
 # Test info
 
-- Name: screens.spec.js >> screen transitions >> 05 Parchment overlay — rendered and dismissible after clicking ¡Estamos en el Passatge!
-- Location: tests/screens.spec.js:87:3
+- Name: screens.spec.js >> screen transitions >> 03 Mission 0 Screen & Persistence — state survives a page reload
+- Location: tests/screens.spec.js:48:3
 
 # Error details
 
@@ -73,7 +73,8 @@ Call log:
   50  |     page.on('pageerror', (error) => errors.push(error));
   51  |     page.on('consoleerror', (message) => errors.push(message));
   52  | 
-  53  |     await page.goto('/', { waitUntil: 'networkidle' });
+> 53  |     await page.goto('/', { waitUntil: 'networkidle' });
+      |                ^ Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:8080/
   54  |     expect(errors).toEqual([]);
   55  | 
   56  |     // Advance to Mission 0.
@@ -112,8 +113,7 @@ Call log:
   89  |     page.on('pageerror', (error) => errors.push(error));
   90  |     page.on('consoleerror', (message) => errors.push(message));
   91  | 
-> 92  |     await page.goto('/', { waitUntil: 'networkidle' });
-      |                ^ Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:8080/
+  92  |     await page.goto('/', { waitUntil: 'networkidle' });
   93  |     expect(errors).toEqual([]);
   94  | 
   95  |     // Advance to Mission 0.

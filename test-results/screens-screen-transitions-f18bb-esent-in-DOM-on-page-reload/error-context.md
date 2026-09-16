@@ -6,8 +6,8 @@
 
 # Test info
 
-- Name: screens.spec.js >> screen transitions >> 05 Parchment overlay — rendered and dismissible after clicking ¡Estamos en el Passatge!
-- Location: tests/screens.spec.js:87:3
+- Name: screens.spec.js >> screen transitions >> 04 Audio Toggle — present in DOM on page reload
+- Location: tests/screens.spec.js:71:3
 
 # Error details
 
@@ -96,7 +96,8 @@ Call log:
   73  |     page.on('pageerror', (error) => errors.push(error));
   74  |     page.on('consoleerror', (message) => errors.push(message));
   75  | 
-  76  |     await page.goto('/', { waitUntil: 'networkidle' });
+> 76  |     await page.goto('/', { waitUntil: 'networkidle' });
+      |                ^ Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:8080/
   77  |     expect(errors).toEqual([]);
   78  | 
   79  |     await expect(page.locator('#btn-audio-toggle')).toBeVisible();
@@ -112,8 +113,7 @@ Call log:
   89  |     page.on('pageerror', (error) => errors.push(error));
   90  |     page.on('consoleerror', (message) => errors.push(message));
   91  | 
-> 92  |     await page.goto('/', { waitUntil: 'networkidle' });
-      |                ^ Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:8080/
+  92  |     await page.goto('/', { waitUntil: 'networkidle' });
   93  |     expect(errors).toEqual([]);
   94  | 
   95  |     // Advance to Mission 0.

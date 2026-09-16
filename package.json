@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "npx playwright test",
-    "test:smoke": "serve . -p 8080 & SERVER_PID=$!; npx playwright test; kill $SERVER_PID 2>/dev/null || true"
+    "test:smoke": "serve . -p 8080 & SERVER_PID=$!; if npx playwright test; then TEST_STATUS=0; else TEST_STATUS=$?; fi; kill $SERVER_PID 2>/dev/null || true; exit $TEST_STATUS"
   },
   "devDependencies": {
     "serve": "^14.2.6",
