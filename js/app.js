@@ -51,19 +51,27 @@ function render() {
     });
     app.appendChild(introScreen);
   } else if (state.currentStage === 1) {
+    // Mission 0: amulet puzzle screen.
+    renderAmuletBar();
+    const mission0Screen = renderMission0Screen(function onMission0Complete() {
+      advanceStage();
+      render();
+    });
+    app.appendChild(mission0Screen);
+  } else if (state.currentStage === 2) {
     // Render amulet bar in the global UI header.
     renderAmuletBar();
 
-    loadStageData(1)
+    loadStageData(2)
       .then(function (stageData) {
-        const stageScreen = renderStageScreen(1, stageData, function onStageComplete() {
+        const stageScreen = renderStageScreen(2, stageData, function onStageComplete() {
           advanceStage();
           render();
         });
         app.appendChild(stageScreen);
       })
       .catch(function (err) {
-        console.error('Failed to load stage 1 data:', err);
+        console.error('Failed to load stage 2 data:', err);
         const errorEl = document.createElement('main');
         errorEl.id = 'stage-screen';
         const heading = document.createElement('h1');

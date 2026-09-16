@@ -1,68 +1,67 @@
-/**
- * TeamRegistrationScreen — builds the team registration screen DOM for Barcino.
- *
- * Renders a screen with a text input for the team name and a confirm button.
- * The button validates the input and either shows an error or invokes the
- * submission callback.
- */
+export function renderTeamRegistrationScreen(onSubmit) {
+  const screen = document.createElement('div');
+  screen.id = 'team-registration-screen';
+  screen.className = 'scene-container';
 
-/**
- * Build and return the team registration screen <main> element.
- *
- * The button click handler reads the input value, trims it, and validates:
- * - If length < 3, displays an error span with id='team-name-error' and text
- *   'El nombre debe tener al menos 3 caracteres', clearing any previous error.
- * - If valid, clears the error span and calls onSubmitCallback(name).
- *
- * @param {Function} onSubmitCallback — invoked with the trimmed team name when
- *   validation passes.
- * @returns {HTMLElement} the <main id='team-registration-screen'> element.
- */
-function renderTeamRegistrationScreen(onSubmitCallback) {
-  const main = document.createElement('main');
-  main.id = 'team-registration-screen';
+  const parchment = document.createElement('div');
+  parchment.className = 'parchment-content';
 
-  const sceneContainer = document.createElement('div');
-  sceneContainer.className = 'scene-container';
+  const title = document.createElement('h2');
+  title.textContent = 'Registra tu equipo';
+  parchment.appendChild(title);
 
-  const parchmentContent = document.createElement('div');
-  parchmentContent.className = 'parchment-content';
-
-  const input = document.createElement('input');
-  input.id = 'input-team-name';
-  input.type = 'text';
-  input.placeholder = 'Ingresa el nombre de tu equipo';
-
-  const errorSpan = document.createElement('span');
-  errorSpan.id = 'team-name-error';
-  errorSpan.className = 'error';
-
-  const btnConfirm = document.createElement('button');
-  btnConfirm.id = 'btn-confirm-team';
-  btnConfirm.type = 'button';
-  btnConfirm.className = 'cta-button';
-  btnConfirm.textContent = 'Confirmar';
-
-  btnConfirm.addEventListener('click', () => {
+  const form = document.createElement('form');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const input = document.getElementById('team-name-input');
     const name = input.value.trim();
-    if (name.length < 3) {
-      errorSpan.textContent = 'El nombre debe tener al menos 3 caracteres';
+    const errorEl = document.getElementById('team-name-error');
+    errorEl.textContent = '';
+
+    if (!name) {
+      errorEl.textContent = 'El nombre del equipo no puede estar vacío';
       return;
     }
-    errorSpan.textContent = '';
-    if (typeof onSubmitCallback === 'function') {
-      onSubmitCallback(name);
+
+    if (name.length < 2) {
+      errorEl.textContent = 'El nombre debe tener al menos 2 caracteres';
+      return;
     }
+
+    if (!/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]+$/.test(name)) {
+      errorEl.textContent = 'Solo letras, números y espacios';
+      return;
+    }
+
+    onSubmit(name);
   });
 
-  parchmentContent.appendChild(input);
-  parchmentContent.appendChild(errorSpan);
-  parchmentContent.appendChild(btnConfirm);
-  sceneContainer.appendChild(parchmentContent);
-  main.appendChild(sceneContainer);
+  const label = document.createElement('label');
+  label.textContent = 'Nombre del equipo';
+  label.htmlFor = 'team-name-input';
 
-  return main;
+  const input = document.createElement('input');
+  input.id = 'team-name-input';
+  input.type = 'text';
+  input.placeholder = 'Ej: Los Detectives de Barcino';
+  input.maxLength = 30;
+
+  const error = document.createElement('span');
+  error.id = 'team-name-error';
+  error.className = 'error';
+
+  const submitBtn = document.createElement('button');
+  submitBtn.id = 'btn-continue';
+  submitBtn.type = 'submit';
+  submitBtn.textContent = 'Continuar';
+
+  form.appendChild(label);
+  form.appendChild(input);
+  form.appendChild(error);
+  form.appendChild(submitBtn);
+
+  parchment.appendChild(form);
+  screen.appendChild(parchment);
+
+  return screen;
 }
-
-export { renderTeamRegistrationScreen };
-
