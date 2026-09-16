@@ -329,3 +329,40 @@ body {
 #global-ui .ui-icon-btn:focus {
   outline: 2px solid var(--gold);
 }
+
+/* Amulet bar — gem collection display inside the global UI header */
+.amulet-bar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  pointer-events: auto;
+}
+
+.gem-slot {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--brass);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.4);
+  transition: box-shadow 0.3s, background 0.3s, border-color 0.3s;
+}
+
+.gem-icon {
+  font-size: 20px;
+  filter: grayscale(1) brightness(0.5);
+  transition: filter 0.3s;
+}
+
+/* Collected gem — active glow and coloured fill */
+.gem-slot.collected {
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.6), inset 0 0 6px rgba(212, 175, 55, 0.4);
+  border-color: var(--gold);
+  background: rgba(212, 175, 55, 0.2);
+}
+
+.gem-slot.collected .gem-icon {
+  filter: grayscale(0) brightness(1.2) drop-shadow(0 0 4px rgba(212, 175, 55, 0.8));
+}

@@ -1,6 +1,7 @@
 import { renderIntroScreen } from './components/IntroScreen.js';
 import { renderOnboardingFlow } from './components/OnboardingFlow.js';
 import { renderMission0Screen } from './components/Mission0Screen.js';
+import { mountAmuletBar } from './components/AmuletBar.js';
 import { getGameState, setTeamName, advanceStage } from './gameState.js';
 
 function render() {
@@ -62,4 +63,5 @@ document.addEventListener('DOMContentLoaded', () => {
   app.innerHTML = '';
 
   render();
+  mountAmuletBar();
 });
