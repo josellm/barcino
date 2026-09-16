@@ -1,8 +1,7 @@
 import { renderIntroScreen } from './components/IntroScreen.js';
 import { renderOnboardingFlow } from './components/OnboardingFlow.js';
-// import { renderMission0Screen } from './components/Mission0Screen.js';
-import { renderStageScreen } from './components/StageScreen.js';
-import { renderAmuletBar } from './components/AmuletBar.js';
+import { renderMission0Screen } from './components/Mission0Screen.js';
+import { renderAmuletBar, mountAmuletBar } from './components/AmuletBar.js';
 import { getGameState, setTeamName, advanceStage } from './gameState.js';
 
 async function loadStageData(stageNumber) {

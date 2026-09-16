@@ -12,30 +12,39 @@
 # Error details
 
 ```
-Error: expect(received).toEqual(expected) // deep equality
+Error: expect(locator).toBeVisible() failed
 
-- Expected  - 1
-+ Received  + 3
+Locator: locator('#mission0-screen')
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
 
-- Array []
-+ Array [
-+   [ReferenceError: mountAmuletBar is not defined],
-+ ]
+Call log:
+  - Expect "toBeVisible" locator('#mission0-screen') with timeout 5000ms
+  - waiting for locator('#mission0-screen')
+
 ```
 
-# Page snapshot
-
 ```yaml
-- generic [active] [ref=e1]:
-  - banner:
-    - button "Toggle Audio" [ref=e2] [cursor=pointer]: 🔊
-  - main [ref=e3]:
-    - main [ref=e4]:
-      - generic [ref=e5]:
-        - img "Intro background"
-        - toolbar "Story start actions" [ref=e6]:
-          - button "Iniciar aventura" [ref=e7] [cursor=pointer]
-  - contentinfo
+- banner:
+  - button "Toggle Audio": 🔊
+  - text: 💎 💎 💎 💎 💎
+- main:
+  - main:
+    - heading "Palau de la Música Catalana" [level=2]
+    - heading "Lluís Domènech i Montaner" [level=3]
+    - paragraph: Arquitecto
+    - paragraph: Diseñé este palacio de la música con ladrillo visto, mosaicos de colores y esculturas dedicadas a la canción popular catalana.
+    - button "Interrogate"
+    - heading "Músico despistado" [level=3]
+    - paragraph: Violinista
+    - paragraph: Llego tarde al concierto de rock de esta noche... ¿alguien sabe dónde se compran los billetes de metro aquí dentro?
+    - button "Interrogate"
+    - heading "Agente Encubierto" [level=3]
+    - paragraph: Mercenario
+    - paragraph: Este edificio se construyó en el año 1400 como castillo medieval de piedra maciza sin ninguna ventana.
+    - button "Interrogate"
+- contentinfo
 ```
 
 # Test source
@@ -69,8 +78,7 @@ Error: expect(received).toEqual(expected) // deep equality
   26  |     page.on('consoleerror', (message) => errors.push(message));
   27  | 
   28  |     await page.goto('/', { waitUntil: 'networkidle' });
-> 29  |     expect(errors).toEqual([]);
-      |                    ^ Error: expect(received).toEqual(expected) // deep equality
+  29  |     expect(errors).toEqual([]);
   30  | 
   31  |     // Advance to team registration step.
   32  |     await page.click('#btn-start');
@@ -85,7 +93,8 @@ Error: expect(received).toEqual(expected) // deep equality
   41  |     await page.click('#btn-confirm-name');
   42  | 
   43  |     // Should advance to Mission 0 screen.
-  44  |     await expect(page.locator('#mission0-screen')).toBeVisible();
+> 44  |     await expect(page.locator('#mission0-screen')).toBeVisible();
+      |                                                    ^ Error: expect(locator).toBeVisible() failed
   45  |     await expect(page.locator('#mission0-title')).toContainText('Misión 0: El amuleto del tiempo');
   46  |   });
   47  | 
