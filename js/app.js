@@ -1,8 +1,25 @@
 import { renderIntroScreen } from './components/IntroScreen.js';
 import { renderOnboardingFlow } from './components/OnboardingFlow.js';
-import { renderMission0Screen } from './components/Mission0Screen.js';
-import { mountAmuletBar } from './components/AmuletBar.js';
+// import { renderMission0Screen } from './components/Mission0Screen.js';
+import { renderStageScreen } from './components/StageScreen.js';
+import { renderAmuletBar } from './components/AmuletBar.js';
 import { getGameState, setTeamName, advanceStage } from './gameState.js';
+
+async function loadStageData(stageNumber) {
+  const response = await fetch('data/stages.json');
+  if (!response.ok) {
+    throw new Error('Failed to load stage data: ' + response.status);
+  }
+  const data = await response.json();
+  if (Array.isArray(data)) {
+    const stage = data.find(function (s) { return s.id === stageNumber; });
+    if (!stage) {
+      throw new Error('Stage ' + stageNumber + ' not found in stages.json');
+    }
+    return stage;
+  }
+  return data;
+}
 
 function render() {
   const app = document.getElementById('app');
@@ -35,11 +52,26 @@ function render() {
     });
     app.appendChild(introScreen);
   } else if (state.currentStage === 1) {
-    const missionScreen = renderMission0Screen(state.teamName, () => {
-      advanceStage();
-      render();
-    });
-    app.appendChild(missionScreen);
+    // Render amulet bar in the global UI header.
+    renderAmuletBar();
+
+    loadStageData(1)
+      .then(function (stageData) {
+        const stageScreen = renderStageScreen(1, stageData, function onStageComplete() {
+          advanceStage();
+          render();
+        });
+        app.appendChild(stageScreen);
+      })
+      .catch(function (err) {
+        console.error('Failed to load stage 1 data:', err);
+        const errorEl = document.createElement('main');
+        errorEl.id = 'stage-screen';
+        const heading = document.createElement('h1');
+        heading.textContent = 'Error cargando la etapa';
+        errorEl.appendChild(heading);
+        app.appendChild(errorEl);
+      });
   } else {
     // stage >= 2: placeholder for the next mission.
     const placeholder = document.createElement('main');
