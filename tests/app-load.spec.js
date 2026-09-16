@@ -13,7 +13,9 @@ test.describe('app-load smoke test', () => {
     // No runtime errors should have been emitted during load.
     expect(errors).toEqual([]);
 
-    // The join-adventure button must be present and clickable (OnboardingFlow step 1).
+    // The intro screen must appear before the onboarding flow.
+    await expect(page.locator('#btn-start')).toBeVisible();
+    await page.click('#btn-start');
     await expect(page.locator('#btn-join-adventure')).toBeVisible();
     await page.click('#btn-join-adventure');
 

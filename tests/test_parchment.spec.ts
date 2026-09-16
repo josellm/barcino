@@ -3,6 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('parchment scrollability and containment', () => {
   test('.parchment-content has scrollable overflow and stays within .scene-container', async ({ page }) => {
     await page.goto('/');
+    await page.click('#btn-start');
     await page.click('#btn-join-adventure');
     await expect(page.locator('#team-name-input')).toBeVisible();
 
@@ -29,6 +30,7 @@ test.describe('parchment scrollability and containment', () => {
 test.describe('team registration error handling', () => {
   test('invalid characters show .error span inside parchment overlay', async ({ page }) => {
     await page.goto('/');
+    await page.click('#btn-start');
     await page.click('#btn-join-adventure');
     await expect(page.locator('#team-name-input')).toBeVisible();
 
@@ -57,6 +59,7 @@ test.describe('team registration error handling', () => {
 test.describe('maps button containment', () => {
   test('.btn-maps link is within parchment bounds', async ({ page }) => {
     await page.goto('/');
+    await page.click('#btn-start');
     await page.click('#btn-join-adventure');
 
     // Register a valid team to advance to Mission 0 where .btn-maps appears.
