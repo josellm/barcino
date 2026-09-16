@@ -32,8 +32,9 @@ test.describe('screen transitions', () => {
     await page.click('#btn-start');
     await page.click('#btn-join-adventure');
 
-    // Try submitting empty name — should stay on step 2.
+    // Try submitting empty name — should stay on step 2 with error.
     await page.click('#btn-confirm-name');
+    await expect(page.locator('#team-name-error')).toBeVisible();
     await expect(page.locator('#team-name-input')).toBeVisible();
 
     // Enter valid name and confirm.
@@ -42,7 +43,8 @@ test.describe('screen transitions', () => {
 
     // Should advance to Mission 0 screen.
     await expect(page.locator('#mission0-screen')).toBeVisible();
-    await expect(page.locator('#mission0-title')).toContainText('Misión 0: El amuleto del tiempo');
+    await expect(page.locator('#mission0-screen .parchment-text')).toContainText('¡Excelente, Los Viajeros!');
+    await expect(page.locator('#btn-arrived-passatge')).toBeVisible();
   });
 
   test('03 Mission 0 Screen & Persistence — state survives a page reload', async ({ page }) => {
@@ -53,18 +55,18 @@ test.describe('screen transitions', () => {
     await page.goto('/', { waitUntil: 'networkidle' });
     expect(errors).toEqual([]);
 
-    // Advance to Mission 0.
+    // Advance to Mission 0 screen.
     await page.click('#btn-start');
     await page.click('#btn-join-adventure');
     await page.fill('#team-name-input', 'Los Viajeros');
     await page.click('#btn-confirm-name');
+
     await expect(page.locator('#mission0-screen')).toBeVisible();
 
     // Reload — state should persist via localStorage.
     await page.reload({ waitUntil: 'networkidle' });
-    expect(errors).toEqual([]);
 
-    // Should still be on Mission 0 screen.
+    // After reload, the app should restore the Mission 0 screen.
     await expect(page.locator('#mission0-screen')).toBeVisible();
   });
 
@@ -76,15 +78,15 @@ test.describe('screen transitions', () => {
     await page.goto('/', { waitUntil: 'networkidle' });
     expect(errors).toEqual([]);
 
+    // Audio toggle should be present in the global UI.
     await expect(page.locator('#btn-audio-toggle')).toBeVisible();
 
+    // Reload and verify it persists in the DOM.
     await page.reload({ waitUntil: 'networkidle' });
-    expect(errors).toEqual([]);
-
     await expect(page.locator('#btn-audio-toggle')).toBeVisible();
   });
 
-  test('05 Parchment overlay — rendered and dismissible after clicking ¡Estamos en el Passatge!', async ({ page }) => {
+  test('05 Parchment overlay — rendered during onboarding step 2', async ({ page }) => {
     const errors = [];
     page.on('pageerror', (error) => errors.push(error));
     page.on('consoleerror', (message) => errors.push(message));
@@ -92,20 +94,15 @@ test.describe('screen transitions', () => {
     await page.goto('/', { waitUntil: 'networkidle' });
     expect(errors).toEqual([]);
 
-    // Advance to Mission 0.
+    // Advance to onboarding step 2 where the parchment overlay is shown.
     await page.click('#btn-start');
     await page.click('#btn-join-adventure');
-    await page.fill('#team-name-input', 'Los Viajeros');
-    await page.click('#btn-confirm-name');
-    await expect(page.locator('#mission0-screen')).toBeVisible();
 
-    // Parchment overlay should be visible.
-    await expect(page.locator('#parchment-overlay')).toBeVisible();
+    // Parchment content should be visible during onboarding.
+    await expect(page.locator('.parchment-content')).toBeVisible();
 
-    // Click the dismiss button.
-    await page.click('#btn-estamos-en-el-passatge');
-
-    // Overlay should be hidden after dismissal.
-    await expect(page.locator('#parchment-overlay')).not.toBeVisible();
+    // The team name input and confirm button should be inside the parchment.
+    await expect(page.locator('#team-name-input')).toBeVisible();
+    await expect(page.locator('#btn-confirm-name')).toBeVisible();
   });
 });

@@ -302,7 +302,7 @@ body {
   z-index: 10000;
   background-color: rgba(0, 0, 0, 0.3);
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   padding: 10px;
   pointer-events: none;
 }
@@ -328,4 +328,326 @@ body {
 
 #global-ui .ui-icon-btn:focus {
   outline: 2px solid var(--gold);
+}
+
+/* Amulet bar — gem collection display inside the global UI header */
+.amulet-bar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 8px;
+  align-items: center;
+  pointer-events: auto;
+  margin-right: 12px;
+}
+
+.gem-slot {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--brass);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.4);
+  transition: box-shadow 0.3s, background 0.3s, border-color 0.3s;
+}
+
+.gem-icon {
+  font-size: 20px;
+  filter: grayscale(1) brightness(0.5);
+  transition: filter 0.3s;
+}
+
+/* Collected gem — active glow and coloured fill */
+.gem-slot.collected {
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.6), inset 0 0 6px rgba(212, 175, 55, 0.4);
+  border-color: var(--gold);
+  background: rgba(212, 175, 55, 0.2);
+}
+
+.gem-slot.collected .gem-icon {
+  filter: grayscale(0) brightness(1.2) drop-shadow(0 0 4px rgba(212, 175, 55, 0.8));
+}
+
+/* Stage screen — full-screen scene with background image and parchment dialogue overlay */
+#stage-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-dark);
+}
+
+#stage-screen .scene-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  max-width: none;
+  margin: 0;
+  border-radius: 0;
+}
+
+#stage-screen .scene-container .bg-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Parchment content overlay for dialogues inside the stage screen */
+#stage-screen .parchment-content {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+#stage-screen .stage-complete-content {
+  z-index: 3;
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Invisible image-region controls and side-positioned witness dialogue. */
+.witness-hotspots {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.witness-hotspot {
+  height: 100%;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.witness-hotspot:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: -8px;
+}
+
+.witness-dialogue-box {
+  position: absolute;
+  top: 18%;
+  z-index: 2;
+  width: min(34%, 420px);
+  max-height: 64%;
+  overflow-y: auto;
+  padding: 1.25rem;
+  border: 3px solid var(--brass);
+  color: #2b1d0c;
+  background: linear-gradient(135deg, #f5e6c8 0%, #e8d5a3 100%);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+}
+
+.witness-dialogue-1 {
+  right: 5%;
+}
+
+.witness-dialogue-0 {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.witness-dialogue-2 {
+  left: 5%;
+}
+
+.witness-dialogue-box .witness-dialogue {
+  margin: 0.75rem 0 1rem;
+}
+
+.witness-feedback {
+  position: absolute;
+  right: 5%;
+  bottom: 8%;
+  z-index: 2;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 245, 220, 0.9);
+  font-weight: bold;
+}
+
+/* Puzzle option — radio-button group layout */
+.puzzle-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+}
+
+.puzzle-option {
+  display: grid;
+  grid-template-columns: 1.1rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--brass);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.puzzle-option:hover {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: var(--gold);
+}
+
+.puzzle-option input[type="radio"] {
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  accent-color: var(--gold);
+  cursor: pointer;
+}
+
+.puzzle-option span {
+  min-width: 0;
+  line-height: 1.35;
+}
+
+/* Gem modal overlay — centered pop-up with animation */
+.gem-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+  animation: gem-modal-fade 0.4s ease-out;
+}
+
+.gem-modal .modal-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5e6c8 0%, #e8d5a3 100%);
+  border: 3px solid var(--brass);
+  border-radius: 8px;
+  color: #2b1d0c;
+  max-width: 90vw;
+  text-align: center;
+}
+
+.gem-modal .gem-icon {
+  font-size: 3rem;
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.8));
+}
+
+.gem-modal .modal-label {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--gold);
+}
+
+/* Gem unlock modal created by StageScreen. */
+.gem-unlocked-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+}
+
+.gem-unlocked-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.gem-unlocked-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: min(90vw, 30rem);
+  max-width: 90vw;
+  padding: 2rem;
+  border: 3px solid var(--brass);
+  color: #2b1d0c;
+  background: linear-gradient(135deg, #f5e6c8 0%, #e8d5a3 100%);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.55);
+  text-align: center;
+}
+
+.gem-unlocked-message h2 {
+  color: #2b1d0c;
+}
+
+.gem-unlocked-message p {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+@keyframes gem-modal-fade {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Phase indicator and feedback message — warning and success colors */
+.phase-indicator,
+.feedback-message {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+  text-align: center;
+  transition: opacity 0.3s;
+}
+
+.phase-indicator.warning,
+.feedback-message.warning {
+  background: var(--accent);
+  color: var(--text-light);
+}
+
+.phase-indicator.success,
+.feedback-message.success {
+  background: var(--gold);
+  color: #2b1d0c;
+}
+
+/* Transition button — cta-button compatible */
+.transition-button {
+  display: inline-block;
+  margin: 0 auto;
+  padding: 16px 48px;
+  font-size: 1.2rem;
+  background: var(--accent);
+  color: var(--text-light);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.transition-button:hover {
+  background: #ff5a75;
+}
+
+.transition-button:focus {
+  outline: 2px solid var(--gold);
+  transition: background 0.3s, outline 0.2s;
 }
