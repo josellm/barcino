@@ -2,8 +2,9 @@ import { renderIntroScreen } from './components/IntroScreen.js';
 import { renderOnboardingFlow } from './components/OnboardingFlow.js';
 import { renderMission0Screen } from './components/Mission0Screen.js';
 import { renderStageScreen } from './components/StageScreen.js';
+import { renderDiplomaScreen } from './components/DiplomaScreen.js';
 import { renderAmuletBar, mountAmuletBar } from './components/AmuletBar.js';
-import { getGameState, setTeamName, advanceStage } from './gameState.js';
+import { getGameState, setTeamName, setStage, setStageStatus } from './gameState.js';
 
 async function loadStageData(stageNumber) {
   const response = await fetch('data/stages.json');
@@ -41,7 +42,8 @@ function render() {
         (name) => {
           try {
             setTeamName(name);
-            advanceStage();
+            setStage(1);
+            setStageStatus('briefing');
             render();
           } catch (e) {
             console.error('Failed to set team name:', e);
@@ -51,23 +53,54 @@ function render() {
       app.appendChild(onboarding);
     });
     app.appendChild(introScreen);
-  } else if (state.currentStage === 1) {
-    // Mission 0: briefing screen before entering the current stage.
+  } else if (state.currentStage === 1 && state.stageStatus !== 'active') {
     renderAmuletBar();
     const mission0Screen = renderMission0Screen(state.teamName, function onMission0Complete() {
-      advanceStage();
+      setStageStatus('active');
       render();
     });
     app.appendChild(mission0Screen);
-  } else if (state.currentStage >= 2) {
+  } else if (state.currentStage === 6 && state.stageStatus === 'complete') {
+    renderAmuletBar();
+    app.appendChild(renderDiplomaScreen(() => {
+      render();
+    }));
+  } else if (state.currentStage >= 1 && state.currentStage <= 6) {
     // Render amulet bar in the global UI header.
     renderAmuletBar();
 
-    loadStageData(state.currentStage)
+    // Older saved games used stage 2 for the first data-driven stage.
+    const stageNumber = state.currentStage === 2 && !state.gems[0] ? 1 : state.currentStage;
+
+    loadStageData(stageNumber)
       .then(function (stageData) {
-        const stageScreen = renderStageScreen(state.currentStage, stageData, function onStageComplete() {
-          advanceStage();
-          render();
+        const stageScreen = renderStageScreen(stageNumber, stageData, function onStageComplete() {
+          if (stageNumber === 1) {
+            setStage(2);
+            setStageStatus('active');
+            render();
+          } else if (stageNumber === 2) {
+            setStage(3);
+            setStageStatus('active');
+            render();
+          } else if (stageNumber === 3) {
+            setStage(4);
+            setStageStatus('active');
+            render();
+          } else if (stageNumber === 4) {
+            setStage(5);
+            setStageStatus('active');
+            render();
+          } else if (stageNumber === 5) {
+            setStage(6);
+            setStageStatus('active');
+            render();
+          } else if (stageNumber === 6) {
+            setStageStatus('complete');
+            render();
+          } else {
+            mountAmuletBar();
+          }
         });
         app.appendChild(stageScreen);
       })
@@ -81,7 +114,6 @@ function render() {
         app.appendChild(errorEl);
       });
   } else {
-    // stage >= 2: placeholder for the next mission.
     const placeholder = document.createElement('main');
     placeholder.id = 'next-mission-screen';
     const heading = document.createElement('h1');

@@ -415,6 +415,15 @@ body {
   opacity: 1;
 }
 
+#stage-screen .stage-dispatch {
+  z-index: 4;
+  pointer-events: auto;
+}
+
+#stage-screen .stage-dispatch a {
+  pointer-events: auto;
+}
+
 /* Invisible image-region controls and side-positioned witness dialogue. */
 .witness-hotspots {
   position: absolute;
@@ -605,6 +614,69 @@ body {
     opacity: 1;
     transform: scale(1);
   }
+}
+
+#diploma-screen {
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  background: var(--bg-dark);
+}
+
+.diploma-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  border: 6px double var(--brass);
+  color: #2b1d0c;
+  background: linear-gradient(135deg, #f5e6c8 0%, #e8d5a3 100%);
+  text-align: center;
+}
+
+.diploma-content h1,
+.diploma-team-name,
+.diploma-title {
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.diploma-team-name {
+  margin: 0.5rem 0;
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+.diploma-title {
+  max-width: 34rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.diploma-eyebrow,
+.diploma-date {
+  margin: 0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.diploma-gems {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.diploma-gem {
+  color: #8c8170;
+  font-size: 2rem;
+}
+
+.diploma-gem.collected {
+  color: var(--accent);
+  filter: drop-shadow(0 0 8px var(--gold));
 }
 
 /* Phase indicator and feedback message — warning and success colors */

@@ -17,6 +17,7 @@ const gameStateModule = (() => {
   }
 
   function loadFromLocalStorage() {
+    state = { ...DEFAULT_STATE };
     try {
       const saved = localStorage.getItem('barcino_game_state');
       if (saved) {
@@ -33,6 +34,11 @@ const gameStateModule = (() => {
 
   function advanceStage() {
     state.currentStage++;
+    saveToLocalStorage();
+  }
+
+  function setStageStatus(status) {
+    state.stageStatus = status;
     saveToLocalStorage();
   }
 
@@ -59,6 +65,7 @@ const gameStateModule = (() => {
       state.currentStage = stage;
       saveToLocalStorage();
     },
+    setStageStatus,
     saveToLocalStorage,
     loadFromLocalStorage,
     advanceStage,
@@ -67,5 +74,5 @@ const gameStateModule = (() => {
   };
 })();
 
-export const { getGameState, setTeamName, setStage, saveToLocalStorage, loadFromLocalStorage, advanceStage, addGem, hasGem } = gameStateModule;
+export const { getGameState, setTeamName, setStage, setStageStatus, saveToLocalStorage, loadFromLocalStorage, advanceStage, addGem, hasGem } = gameStateModule;
 

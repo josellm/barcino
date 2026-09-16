@@ -7,7 +7,8 @@
  *   Phase 3 — Stage complete (gem unlock + transition)
  */
 
-import { addGem } from '../gameState.js';
+import { addGem, setStage } from '../gameState.js';
+import { mountAmuletBar } from './AmuletBar.js';
 
 /**
  * Fetch stage data from the local stages.json file.
@@ -50,6 +51,51 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
   if (stageData && stageData.bgImage) {
     scene.style.backgroundImage = "url('" + stageData.bgImage + "')";
   }
+
+  const title = document.createElement('h1');
+  title.className = 'stage-title';
+  title.textContent = stageData.name;
+  scene.appendChild(title);
+
+  if (stageData.dispatchText) {
+    const dispatch = document.createElement('div');
+    dispatch.className = 'stage-dispatch parchment-content';
+
+    const dispatchText = document.createElement('p');
+    dispatchText.textContent = stageData.dispatchText;
+    dispatch.appendChild(dispatchText);
+
+    const mapsLink = document.createElement('a');
+    mapsLink.className = 'btn-maps';
+    mapsLink.href = stageData.locationUrl;
+    mapsLink.target = '_blank';
+    mapsLink.rel = 'noopener noreferrer';
+    mapsLink.textContent = 'Ver ubicación en Google Maps';
+    dispatch.appendChild(mapsLink);
+
+    const arrivedButton = document.createElement('button');
+    arrivedButton.type = 'button';
+    arrivedButton.className = 'cta-button';
+    arrivedButton.textContent = stageNumber === 2
+      ? '¡Estamos en Santa Ana!'
+      : stageNumber === 3
+        ? '¡Estamos en el Pont del Bisbe!'
+        : stageNumber === 4
+          ? '¡Estamos en el Templo de Augusto!'
+          : stageNumber === 5
+            ? '¡Hemos llegado al Bosc de les Fades!'
+            : '¡Estamos en la Plaça del Rei!';
+    arrivedButton.addEventListener('click', function () {
+      dispatch.remove();
+    });
+    dispatch.appendChild(arrivedButton);
+
+    scene.appendChild(dispatch);
+  }
+
+  const phaseContainer = document.createElement('div');
+  phaseContainer.className = 'stage-phase';
+  scene.appendChild(phaseContainer);
 
   // Internal phase state
   let phase = 1;
@@ -110,7 +156,7 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
     btn.addEventListener('click', function () {
       if (witness.type === 'true') {
         feedback = '';
-        phase = 2;
+        phase = stageData.type === 'rest_stop' ? 3 : 2;
       } else {
         feedback = 'Esa testigo no es fiable. Intenta de nuevo.';
       }
@@ -118,7 +164,7 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
     });
     dialogue.appendChild(btn);
 
-    scene.appendChild(dialogue);
+    phaseContainer.appendChild(dialogue);
   }
 
   // --- Phase 2: Observation Puzzle ---
@@ -149,7 +195,24 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
 
       radio.addEventListener('change', function () {
         if (index === puzzle.correctIndex) {
-          showGemUnlockedModal();
+          if (stageNumber === 3) {
+            showGemUnlockedModal();
+            addGem(2);
+            setStage(3);
+            mountAmuletBar();
+          } else if (stageNumber === 4) {
+            showGemUnlockedModal();
+            addGem(3);
+            setStage(4);
+            mountAmuletBar();
+          } else if (stageNumber === 6) {
+            showGemUnlockedModal();
+            addGem(4);
+            setStage(6);
+            mountAmuletBar();
+          } else {
+            showGemUnlockedModal();
+          }
         } else {
           feedback = 'Opción incorrecta. Intenta de nuevo.';
           renderPhase();
@@ -178,6 +241,26 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
     const content = document.createElement('div');
     content.className = 'parchment-content stage-complete-content';
 
+    if (stageData.type === 'rest_stop') {
+      const narrative = document.createElement('p');
+      narrative.textContent = stageData.witnesses[0].dialogue;
+      content.appendChild(narrative);
+
+      const nextButton = document.createElement('button');
+      nextButton.id = 'btn-next-stage';
+      nextButton.type = 'button';
+      nextButton.className = 'cta-button';
+      nextButton.textContent = stageData.nextStageButton;
+      nextButton.addEventListener('click', function (event) {
+        event.preventDefault();
+        if (typeof onStageComplete === 'function') {
+          onStageComplete();
+        }
+      });
+      content.appendChild(nextButton);
+      return content;
+    }
+
     const successEl = document.createElement('h2');
     successEl.textContent = '¡Gema desbloqueada!';
     content.appendChild(successEl);
@@ -190,10 +273,18 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
     const transitionBtn = document.createElement('button');
     transitionBtn.type = 'button';
     transitionBtn.className = 'cta-button';
-    transitionBtn.textContent = 'Ir a Santa Ana (Stage 2)';
+    transitionBtn.textContent = stageNumber === 1
+      ? 'Ir a Santa Ana (Stage 2)'
+      : stageNumber === 2
+        ? 'Ir al Pont del Bisbe (Stage 3)'
+        : stageNumber === 6
+          ? 'Ver Diploma de Graduación'
+        : 'Continuar la aventura';
     transitionBtn.addEventListener('click', function (e) {
       e.preventDefault();
-      addGem(stageData.id - 1);
+      if (stageNumber !== 3 && stageNumber !== 4 && stageNumber !== 6) {
+        addGem(stageData.id - 1);
+      }
       if (typeof onStageComplete === 'function') {
         onStageComplete();
       }
@@ -216,7 +307,9 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
     messageBox.className = 'gem-unlocked-message';
 
     const title = document.createElement('h2');
-    title.textContent = '💎 Gema Desbloqueada';
+    title.textContent = stageNumber === 6
+      ? '¡Victoria! Gema Gótica recuperada'
+      : '💎 Gema Desbloqueada';
 
     const gemName = document.createElement('p');
     gemName.textContent = stageData.gemName;
@@ -242,8 +335,8 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
   // --- Master render ---
   function renderPhase() {
     // Clear existing phase content
-    while (scene.firstChild) {
-      scene.removeChild(scene.firstChild);
+    while (phaseContainer.firstChild) {
+      phaseContainer.removeChild(phaseContainer.firstChild);
     }
 
     let phaseContent;
@@ -256,14 +349,14 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
     }
 
     if (phaseContent) {
-      scene.appendChild(phaseContent);
+      phaseContainer.appendChild(phaseContent);
     }
 
     if (phase === 1 && feedback) {
       const warning = document.createElement('p');
       warning.className = 'witness-feedback error';
       warning.textContent = feedback;
-      scene.appendChild(warning);
+      phaseContainer.appendChild(warning);
     }
 
     if (phase === 1) {
