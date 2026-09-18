@@ -22,22 +22,31 @@ A mysterious relic thief has stolen the 5 gems of the **Amulet of Barcino**, alt
 
 ## 🎮 Core Mechanics
 
-* **Witness Screen:** Each location presents 3 interactive characters:
-  * **True Witness:** Provides accurate information about the environment.
-  * **Clueless Character:** Adds comic relief or innocent anachronistic data.
-  * **Liar / Mercenary:** Presents logical fallacies or spatial/historical contradictions.
-* **On-Site Challenges:** Direct visual observation puzzles based on real architectural elements (sculptures, engravings, dates).
-* **Dynamic Amulet:** Top visual interface displaying the real-time collection status of the 5 gems.
-* **Local Persistence:** Team name storage via `localStorage` to personalize dialogues and the final diploma.
+* **Witness interrogation:** Each investigation stage presents three interactive
+  witnesses: one truthful witness, one clueless character, and one liar. The
+  team must identify the reliable account before continuing.
+* **On-site observation puzzles:** Multiple-choice challenges use real details
+  of the surrounding architecture, sculptures, and monuments.
+* **Location verification:** Each destination includes a Google Maps link and a
+  geolocation check. The check uses a stage-specific radius when GPS is
+  available, and allows progress when location services are unavailable.
+* **Dynamic amulet:** The header shows the real-time status of all five gems.
+* **Rest stop:** El Bosc de les Fades provides a short recovery stage between
+  the fourth and fifth gem investigations.
+* **Final diploma:** Completing the Plaça del Rei challenge unlocks the final
+  diploma screen for the team.
+* **Local persistence:** Team name, current stage, stage status, and collected
+  gems are saved in `localStorage` under `barcino_game_state`.
 
 ---
 
 ## 🛠️ Tech Stack
 
 * **HTML5 & CSS3:** Responsive layout with a retro-steampunk/gothic aesthetic using CSS Grid/Flexbox.
-* **Vanilla JavaScript (ES6+):** Lightweight client-side game logic, no external frameworks or dependencies.
+* **Vanilla JavaScript (ES6+):** Client-side screen rendering and game flow with no application framework.
 * **Web Audio API:** Playback of the orchestral soundtrack and ambient sound effects.
-* **JSON Data Storage:** Stages, dialogues, logical traps, and validations structured in JSON files.
+* **JSON data:** Stage locations, dispatches, witnesses, dialogues, and puzzles are defined in `data/stages.json`.
+* **Progressive Web App:** `manifest.webmanifest` and `sw.js` provide install metadata and service-worker support.
 
 ---
 
@@ -54,13 +63,45 @@ A mysterious relic thief has stolen the 5 gems of the **Amulet of Barcino**, alt
 │   ├── audio.js            # Music and sound effects player
 │   └── components/
 │       ├── IntroScreen.js             # Adventure welcome screen
+│       ├── OnboardingFlow.js          # Intro and team registration flow
 │       ├── TeamRegistrationScreen.js  # Team name registration and validation
-│       └── Mission0Screen.js           # First mission briefing and location link
+│       ├── Mission0Screen.js           # First mission briefing and location link
+│       ├── StageScreen.js              # Location, witnesses, puzzles, and rewards
+│       ├── AmuletBar.js                # Gem progress display
+│       └── DiplomaScreen.js            # Completion diploma
 ├── assets/
 │   ├── img/                # Scenarios, characters, and gem interface assets
 │   └── audio/              # Soundtrack and SFX
 └── data/
     └── stages.json         # Data structure for locations, dialogues, and puzzles
+```
+
+## 🧭 Stage Flow
+
+1. **Palau de la Música Catalana:** Recover the Gema Modernista.
+2. **Iglesia de Santa Ana:** Recover the Gema Templaria.
+3. **Pont del Bisbe:** Recover the Gema de las Leyendas.
+4. **Templo de Augusto:** Recover the Gema Romana.
+5. **El Bosc de les Fades:** Rest and follow the trail to the final location.
+6. **Plaça del Rei / MUHBA:** Recover the Gema Gótica and complete the adventure.
+
+Each data-driven stage follows the same sequence: arrive at the location,
+interrogate witnesses, solve the observation puzzle, unlock the gem when the
+answer is correct, and advance to the next stage.
+
+## ▶️ Running Locally
+
+Install the dependencies and start the smoke-test server with:
+
+```bash
+npm install
+npm run test:smoke
+```
+
+The test script serves the project on `http://localhost:8080`, runs the
+Playwright test suite, and shuts the server down afterward. For a development
+server without tests, use any static file server from the project root, for
+example `npx serve . -p 8080`.
 
 
 ## 🖥️ Screen Components
@@ -76,3 +117,6 @@ shown according to the current game stage.
 * **`renderMission0Screen(teamName, onArrivedCallback)`**: Shows the personalised
   Palau de la Música Catalana briefing, provides a map link, and advances when
   the team arrives.
+* **`renderStageScreen(stageNumber, stageData, onStageComplete)`**: Renders the
+  location briefing, geolocation check, witness interrogation, observation
+  puzzle, and gem unlock transition for each stage.
