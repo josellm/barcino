@@ -143,15 +143,7 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
     const arrivedButton = document.createElement('button');
     arrivedButton.type = 'button';
     arrivedButton.className = 'cta-button';
-    arrivedButton.textContent = stageNumber === 2
-      ? '¡Estamos en Santa Ana!'
-      : stageNumber === 3
-        ? '¡Estamos en el Pont del Bisbe!'
-        : stageNumber === 4
-          ? '¡Estamos en el Templo de Augusto!'
-          : stageNumber === 5
-            ? '¡Hemos llegado al Bosc de les Fades!'
-            : '¡Estamos en la Plaça del Rei!';
+    arrivedButton.textContent = '¡Estamos en ' + stageData.name + '!';
     arrivedButton.addEventListener('click', function () {
       arrivedButton.disabled = true;
       verifyLocation(
@@ -379,13 +371,9 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
     const transitionBtn = document.createElement('button');
     transitionBtn.type = 'button';
     transitionBtn.className = 'cta-button';
-    transitionBtn.textContent = stageNumber === 1
-      ? 'Ir a Santa Ana (Stage 2)'
-      : stageNumber === 2
-        ? 'Ir al Pont del Bisbe (Stage 3)'
-        : stageNumber === 6
-          ? 'Ver Diploma de Graduación'
-        : 'Continuar la aventura';
+    transitionBtn.textContent = stageNumber === 6
+      ? 'Ver Diploma de Graduación'
+      : 'Continuar la aventura';
     transitionBtn.addEventListener('click', function (e) {
       e.preventDefault();
       if (stageNumber !== 3 && stageNumber !== 4 && stageNumber !== 6) {
