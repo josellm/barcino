@@ -8,7 +8,6 @@
  */
 
 import { addGem, setStage } from '../gameState.js';
-import { mountAmuletBar } from './AmuletBar.js';
 
 /**
  * Fetch stage data from the local stages.json file.
@@ -295,17 +294,14 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
             showGemUnlockedModal();
             addGem(2);
             setStage(3);
-            mountAmuletBar();
           } else if (stageNumber === 4) {
             showGemUnlockedModal();
             addGem(3);
             setStage(4);
-            mountAmuletBar();
           } else if (stageNumber === 6) {
             showGemUnlockedModal();
             addGem(4);
             setStage(6);
-            mountAmuletBar();
           } else {
             showGemUnlockedModal();
           }

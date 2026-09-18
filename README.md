@@ -30,7 +30,6 @@ A mysterious relic thief has stolen the 5 gems of the **Amulet of Barcino**, alt
 * **Location verification:** Each destination includes a Google Maps link and a
   geolocation check. The check uses a stage-specific radius when GPS is
   available, and allows progress when location services are unavailable.
-* **Dynamic amulet:** The header shows the real-time status of all five gems.
 * **Rest stop:** El Bosc de les Fades provides a short recovery stage between
   the fourth and fifth gem investigations.
 * **Final diploma:** Completing the Plaça del Rei challenge unlocks the final
@@ -67,7 +66,6 @@ A mysterious relic thief has stolen the 5 gems of the **Amulet of Barcino**, alt
 │       ├── TeamRegistrationScreen.js  # Team name registration and validation
 │       ├── Mission0Screen.js           # First mission briefing and location link
 │       ├── StageScreen.js              # Location, witnesses, puzzles, and rewards
-│       ├── AmuletBar.js                # Gem progress display
 │       └── DiplomaScreen.js            # Completion diploma
 ├── assets/
 │   ├── img/                # Scenarios, characters, and gem interface assets

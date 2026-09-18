@@ -3,7 +3,6 @@ import { renderOnboardingFlow } from './components/OnboardingFlow.js';
 import { renderMission0Screen } from './components/Mission0Screen.js';
 import { renderStageScreen } from './components/StageScreen.js';
 import { renderDiplomaScreen } from './components/DiplomaScreen.js';
-import { mountAmuletBar } from './components/AmuletBar.js';
 import { getGameState, setTeamName, setStage, setStageStatus } from './gameState.js';
 
 if ('serviceWorker' in navigator) {
@@ -81,14 +80,10 @@ function render() {
     });
     app.appendChild(mission0Screen);
   } else if (state.currentStage === 6 && state.stageStatus === 'complete') {
-    mountAmuletBar();
     app.appendChild(renderDiplomaScreen(() => {
       render();
     }));
   } else if (state.currentStage >= 1 && state.currentStage <= 6) {
-    // Render amulet bar in the global UI header.
-    mountAmuletBar();
-
     // Older saved games used stage 2 for the first data-driven stage.
     const stageNumber = state.currentStage === 2 && !state.gems[0] ? 1 : state.currentStage;
 
@@ -118,8 +113,6 @@ function render() {
           } else if (stageNumber === 6) {
             setStageStatus('complete');
             render();
-          } else {
-            mountAmuletBar();
           }
         });
         app.appendChild(stageScreen);
