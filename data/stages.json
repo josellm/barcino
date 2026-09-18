@@ -15,7 +15,7 @@
     "witnesses": [
       {
         "id": "w1",
-        "name": "Guillem",
+        "name": "Ana",
         "role": "Músico de la Orquesta",
         "type": "clueless",
         "dialogue": "Llego tarde al concierto de esta noche... ¿alguien sabe dónde se compran los billetes de metro aquí dentro?",
@@ -31,7 +31,7 @@
       },
       {
         "id": "w3",
-        "name": "Sergi",
+        "name": "Laura",
         "role": "Guía Turístico",
         "type": "liar",
         "dialogue": "Este edificio se construyó en el año 1400 como castillo medieval de piedra maciza sin ninguna ventana.",

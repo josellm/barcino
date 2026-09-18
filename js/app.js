@@ -37,9 +37,13 @@ function isPWA() {
 
 function showInstallBannerInBrowser() {
   const installBanner = document.getElementById('install-banner');
-  if (installBanner && !isPWA()) {
-    installBanner.hidden = false;
+  if (!installBanner || isPWA()) {
+    return;
   }
+
+  window.addEventListener('beforeinstallprompt', function () {
+    installBanner.hidden = false;
+  }, { once: true });
 }
 
 function render() {
