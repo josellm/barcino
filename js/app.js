@@ -30,6 +30,19 @@ async function loadStageData(stageNumber) {
   return data;
 }
 
+function isPWA() {
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+  const isiOSStandalone = window.navigator.standalone === true;
+  return isStandalone || isiOSStandalone;
+}
+
+function showInstallBannerInBrowser() {
+  const installBanner = document.getElementById('install-banner');
+  if (installBanner && !isPWA()) {
+    installBanner.hidden = false;
+  }
+}
+
 function render() {
   const app = document.getElementById('app');
   if (!app) {
@@ -142,5 +155,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Clear any static markup that may remain inside #app.
   app.innerHTML = '';
 
+  showInstallBannerInBrowser();
   render();
 });

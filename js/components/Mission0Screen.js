@@ -20,7 +20,7 @@ function renderMission0Screen(teamName, onArrivedCallback) {
 
   const greeting = teamName
     ? '¡Excelente, ' + teamName + '! El primer rastro nos lleva a la entrada del Passatge de les Manufactures. Diríos allí para adentraros en el paso hacia el Palau...'
-    : '¡Excelente! El primer rastro nos lleva a la entrada del Passatge de les Manufactures. Diríos allí para adentraros en el paso hacia el Palau...';
+    : '¡Excelente! El primer rastro nos lleva a la entrada del Passatge de les Manufactures. Dirigíos allí para adentraros en el paso hacia el Palau...';
   text.textContent = greeting;
 
   const mapsLink = document.createElement('a');

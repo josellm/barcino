@@ -42,8 +42,8 @@ function renderOnboardingFlow(onJoinAdventure, onTeamNameSubmit) {
   const introText = document.createElement('p');
   introText.className = 'parchment-text';
   introText.textContent =
-    'En el año de nuestro Señor 1350, el Amuleto de Barcino ha sido robado por las sombras del olvido. ' +
-    'El Scribe convoca a los valientes para recuperar la reliquia y restaurar el equilibrio del tiempo. ' +
+    'En el año de nuestro Señor 1350, el Amuleto de Barcino ha sido robado por El famoso ladrón "El Coleccionista". ' +
+    'El escriba convoca a los valientes para recuperar la reliquia y restaurar el equilibrio del tiempo. ' +
     '¿Aceptas esta aventura?';
 
   const btnJoin = document.createElement('button');
