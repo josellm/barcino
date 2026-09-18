@@ -1,237 +1,287 @@
 [
   {
-  "id": 1,
-  "name": "Palau de la Música Catalana",
-  "gemName": "Gema Modernista",
-  "gemIcon": "ruby",
-  "bgImage": "assets/img/palau-bg.jpg",
-  "witnesses": [
-    {
-      "id": "w1",
-      "name": "Lluís Domènech i Montaner",
-      "role": "Arquitecto",
-      "type": "true",
-      "dialogue": "Diseñé este palacio de la música con ladrillo visto, mosaicos de colores y esculturas dedicadas a la canción popular catalana."
+    "id": 1,
+    "name": "Palau de la Música Catalana",
+    "gemName": "Gema Modernista",
+    "gemIcon": "ruby",
+    "dispatchText": "¡Atención, equipo de detectives! El misterioso 'Coleccionista' ha robado las 5 gemas del Amuleto de Barcino. Vuestra misión arranca cruzando el oculto Passatge de les Manufactures hasta llegar a la fachada del espectacular Palau de la Música Catalana. ¡Interrogad a los testigos para recuperar la primera: la Gema Modernista!",
+    "locationUrl": "https://maps.google.com/?q=Palau+de+la+Musica+Catalana+Barcelona",
+    "coordinates": {
+      "lat": 41.38758,
+      "lng": 2.17531,
+      "radiusMeters": 50
     },
-    {
-      "id": "w2",
-      "name": "Músico despistado",
-      "role": "Violinista",
-      "type": "clueless",
-      "dialogue": "Llego tarde al concierto de rock de esta noche... ¿alguien sabe dónde se compran los billetes de metro aquí dentro?"
-    },
-    {
-      "id": "w3",
-      "name": "Agente Encubierto",
-      "role": "Mercenario",
-      "type": "liar",
-      "dialogue": "Este edificio se construyó en el año 1400 como castillo medieval de piedra maciza sin ninguna ventana."
-    }
-  ],
-  "observationPuzzle": {
-    "question": "Observad la gran escultura en la esquina de la fachada principal (de Miquel Blay). ¿Qué figura preside el centro del grupo escultórico rodeada por el pueblo?",
-    "options": [
-      "Una figura hembra alegórica (La Cançó Popular)",
-      "Un dragón de San Jorge",
-      "Un rey con corona y espada"
+    "bgImage": "assets/img/palau-bg.jpg",
+    "witnesses": [
+      {
+        "id": "w1",
+        "name": "Guillem",
+        "role": "Músico de la Orquesta",
+        "type": "clueless",
+        "dialogue": "Llego tarde al concierto de esta noche... ¿alguien sabe dónde se compran los billetes de metro aquí dentro?",
+        "followUpDialogue": "¿Un ladrón con capa? No me he fijado en nadie, estaba ensayando un solo de violín con los ojos cerrados."
+      },
+      {
+        "id": "w2",
+        "name": "Lluís Domènech i Montaner",
+        "role": "Arquitecto del Palau",
+        "type": "true",
+        "dialogue": "Diseñé este palacio con ladrillo visto, mosaicos de colores y esculturas dedicadas a la canción popular catalana.",
+        "followUpDialogue": "¡Vi al sospechoso esconder una gema entre el mosaico de la fachada! Al verse descubierto, huyó a toda prisa hacia la tranquila Iglesia de Santa Ana."
+      },
+      {
+        "id": "w3",
+        "name": "Sergi",
+        "role": "Guía Turístico",
+        "type": "liar",
+        "dialogue": "Este edificio se construyó en el año 1400 como castillo medieval de piedra maciza sin ninguna ventana.",
+        "followUpDialogue": "¡Sí, lo vi perfectamente! Salió corriendo directo hacia las playas de la Barceloneta para coger un barco."
+      }
     ],
-    "correctIndex": 0
-  }
-},
-{
-  "id": 2,
-  "name": "Iglesia de Santa Ana",
-  "gemName": "Gema Templaria",
-  "gemIcon": "emerald",
-  "bgImage": "assets/img/santa-ana-bg.jpg",
-  "dispatchText": "¡Excelente trabajo en el Palau! El rastro del ladrón nos lleva ahora a un rincón tranquilo y escondido cerca de la Plaça Catalunya: la **Iglesia de Santa Ana**, antiguo monasterio vinculado a los Caballeros Templarios.",
-  "locationUrl": "https://maps.google.com/?q=Iglesia+de+Santa+Ana+Barcelona",
-  "witnesses": [
-    {
-      "id": "w1",
-      "name": "Monje Custodio",
-      "role": "Historiador",
-      "type": "true",
-      "dialogue": "Este remanso de paz fue iniciado en el siglo XII. Su claustro gótico y su portal románico guardan la memoria de los antiguos caballeros de la Orden del Santo Sepulcro."
-    },
-    {
-      "id": "w2",
-      "name": "Comprador despistado",
-      "role": "Paseante",
-      "type": "clueless",
-      "dialogue": "Estaba buscando la tienda de camisetas de Portal de l'Àngel y me he metido por este pasaje... ¿esto es un centro comercial?"
-    },
-    {
-      "id": "w3",
-      "name": "Falso Templario",
-      "role": "Mercenario",
-      "type": "liar",
-      "dialogue": "Esta iglesia se construyó la semana pasada usando hormigón armado y acero para rodar una película de Hollywood."
+    "observationPuzzle": {
+      "question": "Observad la gran escultura en la esquina de la fachada principal. ¿Qué figura hay en el centro de la escultura rodeada por el pueblo?",
+      "options": [
+        "La figura de una mujer",
+        "Un dragón de San Jorge",
+        "Un rey con corona y espada"
+      ],
+      "correctIndex": 0
     }
-  ],
-  "observationPuzzle": {
-    "question": "Entrad al tranquilo patio/claustro de acceso a la iglesia. ¿Qué elemento de piedra preside el centro de esta plazoleta ajardinada frente a la entrada?",
-    "options": [
-      "Una gran cruz de piedra (crucero)",
-      "Una estatua de un dragón de bronce",
-      "Un pozo romano con polea de hierro"
+  },
+  {
+    "id": 2,
+    "name": "Iglesia de Santa Ana",
+    "gemName": "Gema Templaria",
+    "gemIcon": "emerald",
+    "bgImage": "assets/img/santa-ana-bg.jpg",
+    "dispatchText": "¡Excelente trabajo en el Palau! El rastro del ladrón nos lleva ahora a un rincón tranquilo y escondido cerca de la Plaça Catalunya: la **Iglesia de Santa Ana**, antiguo monasterio vinculado a los Caballeros Templarios.",
+    "locationUrl": "https://maps.google.com/?q=Iglesia+de+Santa+Ana+Barcelona",
+    "coordinates": {
+      "lat": 41.38578,
+      "lng": 2.17181,
+      "radiusMeters": 50
+    },
+    "witnesses": [
+      {
+        "id": "w1",
+        "name": "Tomás",
+        "role": "Visitante del Pasaje",
+        "type": "liar",
+        "dialogue": "Esta iglesia se construyó la semana pasada usando hormigón armado y acero para rodar una película de Hollywood.",
+        "followUpDialogue": "No busquéis más por el Barrio Gótico, vi a ese tipo subir a un autobús con dirección al Parque Güell."
+      },
+      {
+        "id": "w2",
+        "name": "Padre Andreu",
+        "role": "Custodio del Monasterio",
+        "type": "true",
+        "dialogue": "Este remanso de paz fue iniciado en el siglo XII. Su claustro gótico y su portal románico guardan la memoria de la Orden del Santo Sepulcro.",
+        "followUpDialogue": "El ladrón pasó por este claustro huyendo asustado y se le cayó esta gema junto al crucero de piedra. Decía algo sobre ocultarse bajo el Pont del Bisbe..."
+      },
+      {
+        "id": "w3",
+        "name": "Marta",
+        "role": "Compradora de la Zona",
+        "type": "clueless",
+        "dialogue": "Estaba buscando la tienda de camisetas de Portal de l'Àngel y me he metido por este pasaje... ¿esto es un centro comercial?",
+        "followUpDialogue": "¿Un ladrón del tiempo? Pues no me he cruzado con nadie así, pero si veis una tienda de zapatos avisadme."
+      }
     ],
-    "correctIndex": 0
-  }
-},
-{
-  "id": 3,
-  "name": "Pont del Bisbe",
-  "gemName": "Gema de las Leyendas",
-  "gemIcon": "sapphire",
-  "bgImage": "assets/img/pont-bisbe-bg.jpg",
-  "dispatchText": "¡Con la Gema Templaria a salvo, nos adentramos en el corazón del Barri Gòtic! Seguid por Carrer del Bisbe hasta llegar debajo del famoso puente flanqueado por balcones de piedra.",
-  "locationUrl": "https://maps.google.com/?q=Pont+del+Bisbe+Barcelona",
-  "witnesses": [
-    {
-      "id": "w1",
-      "name": "Cronista del Barri Gòtic",
-      "role": "Historiador Local",
-      "type": "true",
-      "dialogue": "Aunque parece medieval, este puente lo diseñó Joan Rubió i Bellver en 1928. Ocultó bajo su arco un misterioso símbolo de piedra que genera multitud de leyendas urbanas."
-    },
-    {
-      "id": "w2",
-      "name": "Turista desorientado",
-      "role": "Viajero",
-      "type": "clueless",
-      "dialogue": "Perdone, ¿este puente lleva directo a la playa de la Barceloneta o me he saltado el metro?"
-    },
-    {
-      "id": "w3",
-      "name": "Soplón de la Sombra",
-      "role": "Mercenario",
-      "type": "liar",
-      "dialogue": "Este viaducto de piedra fue levantado por los emperadores romanos en el año 50 a.C. para transportar agua desde los Pirineos."
+    "observationPuzzle": {
+      "question": "Entrad al tranquilo patio/claustro de acceso a la iglesia. ¿Qué elemento de piedra preside el centro de esta plazoleta ajardinada frente a la entrada?",
+      "options": [
+        "Un pozo romano con polea de hierro",
+        "Una estatua de un dragón de bronce",
+        "Una gran cruz de piedra (crucero)"
+      ],
+      "correctIndex": 2
     }
-  ],
-  "observationPuzzle": {
-    "question": "Poneos justo debajo del arco del puente y mirad hacia la parte inferior del relieve de piedra. ¿Qué macabro y famoso elemento se encuentra tallado ahí?",
-    "options": [
-      "Una calavera de mármol atravesada por una daga real",
-      "Un escudo real grabado con dos leones rampantes",
-      "Un reloj de sol con caracteres árabes"
+  },
+  {
+    "id": 3,
+    "name": "Pont del Bisbe",
+    "gemName": "Gema de las Leyendas",
+    "gemIcon": "sapphire",
+    "bgImage": "assets/img/pont-bisbe-bg.jpg",
+    "dispatchText": "¡Con la Gema Templaria a salvo, nos adentramos en el corazón del Barri Gòtic! Seguid por Carrer del Bisbe hasta llegar debajo del famoso puente flanqueado por balcones de piedra.",
+    "locationUrl": "https://maps.google.com/?q=Pont+del+Bisbe+Barcelona",
+    "coordinates": {
+      "lat": 41.38338,
+      "lng": 2.17648,
+      "radiusMeters": 60
+    },
+    "witnesses": [
+      {
+        "id": "w1",
+        "name": "Pierre",
+        "role": "Fotógrafo de Viajes",
+        "type": "clueless",
+        "dialogue": "Perdone, ¿este puente lleva directo a la playa de la Barceloneta o me he saltado el metro?",
+        "followUpDialogue": "Je ne sais pas... Yo solo estaba haciendo fotos a los detalles de la piedra, no he visto a nadie corriendo."
+      },
+      {
+        "id": "w2",
+        "name": "Joan",
+        "role": "Vendedor de Recuerdos",
+        "type": "liar",
+        "dialogue": "Este viaducto de piedra fue levantado por los emperadores romanos en el año 50 a.C. para transportar agua desde los Pirineos.",
+        "followUpDialogue": "¡Ah, el tipo de la gema! Lo vi claramente bajando a toda prisa por las Ramblas hacia el puerto."
+      },
+      {
+        "id": "w3",
+        "name": "Eulàlia",
+        "role": "Historiadora Local",
+        "type": "true",
+        "dialogue": "Aunque parece medieval, este puente lo diseñó Joan Rubió i Bellver en 1928. Ocultó bajo su arco un misterioso símbolo de piedra.",
+        "followUpDialogue": "¡Ese bribón escondió la gema justo bajo el relieve de la calavera! Al oír mis gritos escapó hacia las ruinas del Templo de Augusto en el Monte Tàber."
+      }
     ],
-    "correctIndex": 0
-  }
-},
-{
-  "id": 4,
-  "name": "Templo de Augusto",
-  "gemName": "Gema Romana",
-  "gemIcon": "amethyst",
-  "bgImage": "assets/img/templo-augusto-bg.jpg",
-  "dispatchText": "¡La pista del ladrón nos lleva a las entrañas de la antigua Barcino romana! Diríos al número 10 de la calle Paradís (punto más alto del Monte Tàber) e ingresad en el patio interior.",
-  "locationUrl": "https://maps.google.com/?q=Templo+de+Augusto+Barcelona",
-  "witnesses": [
-    {
-      "id": "w1",
-      "name": "Arqueóloga de Barcino",
-      "role": "Investigadora",
-      "type": "true",
-      "dialogue": "Aquí en el Monte Tàber se erigió a finales del siglo I a.C. el Templo de Augusto. Estas gigantescas columnas con capiteles de acanto presidían el foro romano."
-    },
-    {
-      "id": "w2",
-      "name": "Vecino despistado",
-      "role": "Residente",
-      "type": "clueless",
-      "dialogue": "Yo venía a buscar la panadería del barrio... ¿este patio privado tiene salida a la Vía Layetana?"
-    },
-    {
-      "id": "w3",
-      "name": "Mercenario de la Sombra",
-      "role": "Impostor",
-      "type": "liar",
-      "dialogue": "Estas columnas las fabricaron con yeso y cartón piedra en los años 90 para decorar un restaurante temático de la ciudad."
+    "observationPuzzle": {
+      "question": "Poneos justo debajo del arco del puente y mirad hacia la parte inferior del relieve de piedra. ¿Qué macabro y famoso elemento se encuentra tallado ahí?",
+      "options": [
+        "Un escudo real grabado con dos leones rampantes",
+        "Una calavera de mármol atravesada por una daga real",
+        "Un reloj de sol con caracteres árabes"
+      ],
+      "correctIndex": 1
     }
-  ],
-  "observationPuzzle": {
-    "question": "Observad las imponentes columnas romanas dentro del patio del edificio. ¿Cuántas columnas corintias originales se conservan erigidas sobre el podio?",
-    "options": [
-      "4 columnas corintias completas",
-      "12 columnas dóricas de granito",
-      "2 columnas jónicas restauradas"
+  },
+  {
+    "id": 4,
+    "name": "Templo de Augusto",
+    "gemName": "Gema Romana",
+    "gemIcon": "amethyst",
+    "bgImage": "assets/img/templo-augusto-bg.jpg",
+    "dispatchText": "¡La pista del ladrón nos lleva a las entrañas de la antigua Barcino romana! Diríos al número 10 de la calle Paradís (punto más alto del Monte Tàber) e ingresad en el patio interior.",
+    "locationUrl": "https://maps.google.com/?q=Templo+de+Augusto+Barcelona",
+    "coordinates": {
+      "lat": 41.38389,
+      "lng": 2.17722,
+      "radiusMeters": 60
+    },
+    "witnesses": [
+      {
+        "id": "w1",
+        "name": "Dra. Laia Ramos",
+        "role": "Arqueóloga",
+        "type": "true",
+        "dialogue": "Aquí en el Monte Tàber se erigió a finales del siglo I a.C. el Templo de Augusto. Estas gigantescas columnas presidían el foro romano.",
+        "followUpDialogue": "¡Logré arrebatarle esta gema entre las columnas romanas! Mencionó que necesitaba recuperar fuerzas y se dirigió al mágico Bosc de les Fades."
+      },
+      {
+        "id": "w2",
+        "name": "Clara",
+        "role": "Estudiante de Historia",
+        "type": "liar",
+        "dialogue": "Estas columnas las fabricaron con yeso y cartón piedra en los años 90 para decorar un restaurante temático de la ciudad.",
+        "followUpDialogue": "Se fue corriendo hacia el Mercado de la Boquería a comprar fruta, ¡id rápido si queréis alcanzarlo!"
+      },
+      {
+        "id": "w3",
+        "name": "Paloma",
+        "role": "Vecino del Portal",
+        "type": "clueless",
+        "dialogue": "Yo venía a buscar la panadería del barrio... ¿este patio privado tiene salida a la Vía Layetana?",
+        "followUpDialogue": "¿Un amuleto mágico? Yo es que soy más de palomitas, no he visto nada raro por aquí hoy."
+      }
     ],
-    "correctIndex": 0
-  }
-},
-{
-  "id": 5,
-  "name": "El Bosc de les Fades",
-  "type": "rest_stop",
-  "bgImage": "assets/img/bosc-fades-bg.jpg",
-  "dispatchText": "¡Habéis recuperado 4 de las 5 gemas del Amuleto! Es momento de tomar un descanso y reponer fuerzas en el mágico **El Bosc de les Fades** (Pasaje de la Banca, junto a Las Ramblas).",
-  "locationUrl": "https://maps.google.com/?q=El+Bosc+de+les+Fades+Barcelona",
-  "witnesses": [
-    {
-      "id": "w1",
-      "name": "Hada del Bosque",
-      "role": "Guardiana Mágica",
-      "type": "true",
-      "dialogue": "Tomad un descanso reconfortante entre estas cascadas y árboles parlantes. Vuestras 4 gemas reaccionan a la magia del lugar y os darán fuerzas para la batalla final en Plaça del Rei."
-    },
-    {
-      "id": "w2",
-      "name": "Cliente despistado",
-      "role": "Paseante",
-      "type": "clueless",
-      "dialogue": "He venido a tomar un café y de repente ha empezado a llover dentro del local con efectos de luces... ¿alguien me explica este hechizo?"
-    },
-    {
-      "id": "w3",
-      "name": "Duende de las Sombras",
-      "role": "Impostor",
-      "type": "liar",
-      "dialogue": "No perdáis el tiempo descansando aquí, el ladrón ya ha huido en barco hacia Italia y la quinta gema se ha perdido para siempre."
+    "observationPuzzle": {
+      "question": "Observad las imponentes columnas romanas dentro del patio del edificio. ¿Cuántas columnas corintias originales se conservan erigidas sobre el podio?",
+      "options": [
+        "12 columnas dóricas de granito",
+        "2 columnas jónicas restauradas",
+        "4 columnas corintias completas"
+      ],
+      "correctIndex": 2
     }
-  ],
-  "nextStageButton": "¡Reanudar la Búsqueda Final!"
-},
-{
-  "id": 6,
-  "name": "Plaça del Rei (MUHBA)",
-  "gemName": "Gema Gótica",
-  "gemIcon": "diamond",
-  "bgImage": "assets/img/placa-rei-bg.jpg",
-  "dispatchText": "¡Atención equipo! El ladrón del tiempo ha sido acorralado en la monumental **Plaça del Rei**, centro del poder medieval de Barcelona. ¡Esta es la prueba final!",
-  "locationUrl": "https://maps.google.com/?q=Placa+del+Rei+Barcelona",
-  "witnesses": [
-    {
-      "id": "w1",
-      "name": "Archivero del Palau Reial",
-      "role": "Erudito",
-      "type": "true",
-      "dialogue": "El ladrón intentó esconderse en las escaleras semicirculares del Palau Reial Major. Solo resolviendo el enigma del portal de entrada podréis acorralarlo."
+  },
+  {
+    "id": 5,
+    "name": "El Bosc de les Fades",
+    "type": "rest_stop",
+    "bgImage": "assets/img/bosc-fades-bg.jpg",
+    "dispatchText": "¡Habéis recuperado 4 de las 5 gemas del Amuleto! Es momento de tomar un descanso y reponer fuerzas en el mágico **El Bosc de les Fades** (Pasaje de la Banca, junto a Las Ramblas).",
+    "locationUrl": "https://maps.google.com/?q=El+Bosc+de+les+Fades+Barcelona",
+    "coordinates": {
+      "lat": 41.37731,
+      "lng": 2.17604,
+      "radiusMeters": 50
     },
-    {
-      "id": "w2",
-      "name": "Turista sacando fotos",
-      "role": "Viajero",
-      "type": "clueless",
-      "dialogue": "¿Sabéis si el museo tiene aire acondicionado? Hace un calor tremendo aquí fuera."
-    },
-    {
-      "id": "w3",
-      "name": "El Ladrón del Tiempo",
-      "role": "Impostor",
-      "type": "liar",
-      "dialogue": "¡Llegáis tarde! Ya he destruido la última gema y la historia de Barcino cambiará para siempre."
-    }
-  ],
-  "observationPuzzle": {
-    "question": "Observad la emblemática escalera exterior del Palau Reial Major en la Plaça del Rei. ¿Qué forma característica tiene su abanico de peldaños de piedra?",
-    "options": [
-      "Semicircular en abanico",
-      "Completamente recta con barandilla de hierro",
-      "En espiral de caracol suspendida"
+    "witnesses": [
+      {
+        "id": "w1",
+        "name": "Aina",
+        "role": "Hada del bosque",
+        "type": "true",
+        "dialogue": "Tomad un descanso reconfortante entre estas cascadas y árboles parlantes. Vuestras 4 gemas reaccionan a la magia del lugar.",
+        "followUpDialogue": "Habéis recuperado vuestras fuerzas. El sospechoso ha sido visto acorralado muy cerca de aquí, en la monumental Plaça del Rei."
+      },
+      {
+        "id": "w2",
+        "name": "Lola",
+        "role": "Bruja",
+        "type": "liar",
+        "dialogue": "No perdáis el tiempo descansando aquí, el ladrón ya ha huido en barco hacia Italia y la quinta gema se ha perdido para siempre.",
+        "followUpDialogue": "El ladrón ya está muy lejos de Barcelona, me pareció verlo subir a un tren hacia la montaña de Montserrat."
+      },
+      {
+        "id": "w3",
+        "name": "Duende travieso",
+        "role": "Visitante del Local",
+        "type": "clueless",
+        "dialogue": "He venido a tomar un café y de repente ha empezado a llover dentro del local con efectos de luces... ¿alguien me explica este hechizo?",
+        "followUpDialogue": "¿Ladrón? Bastante tengo yo con intentar no mojarme con esta lluvia mágica del techo..."
+      }
     ],
-    "correctIndex": 0
+    "nextStageButton": "¡Reanudar la Búsqueda Final!"
+  },
+  {
+    "id": 6,
+    "name": "Plaça del Rei (MUHBA)",
+    "gemName": "Gema Gótica",
+    "gemIcon": "diamond",
+    "bgImage": "assets/img/placa-rei-bg.jpg",
+    "dispatchText": "¡Atención equipo! El ladrón del tiempo ha sido acorralado en la monumental **Plaça del Rei**, centro del poder medieval de Barcelona. ¡Esta es la prueba final!",
+    "locationUrl": "https://maps.google.com/?q=Placa+del+Rei+Barcelona",
+    "coordinates": {
+      "lat": 41.38411,
+      "lng": 2.17703,
+      "radiusMeters": 50
+    },
+    "witnesses": [
+      {
+        "id": "w1",
+        "name": "Emma",
+        "role": "Visitante del Museo",
+        "type": "clueless",
+        "dialogue": "¿Sabéis si el museo tiene aire acondicionado? Hace un calor tremendo aquí fuera.",
+        "followUpDialogue": "¿Pero al final esto era una visita guiada o una película de acción? Menudo lío..."
+      },
+      {
+        "id": "w2",
+        "name": "El Coleccionista",
+        "role": "Ladrón de Antigüedades",
+        "type": "liar",
+        "dialogue": "¡Llegáis tarde! Ya he destruido la última gema y la historia de Barcino cambiará para siempre.",
+        "followUpDialogue": "¡Jamás atraparéis el poder del tiempo! ¡Barcino cambiará para siempre!"
+      },
+      {
+        "id": "w3",
+        "name": "Francesc",
+        "role": "Archivero del Palau Reial",
+        "type": "true",
+        "dialogue": "El ladrón intentó esconderse en las escaleras semicirculares del Palau Reial Major. Solo resolviendo el enigma podréis acorralarlo.",
+        "followUpDialogue": "¡Lo habéis acorralado! Con esta quinta gema recuperada, el Amuleto de Barcino vuelve a estar completo y la historia está a salvo."
+      }
+    ],
+    "observationPuzzle": {
+      "question": "Observad la emblemática escalera exterior del Palau Reial Major en la Plaça del Rei. ¿Qué forma característica tiene su abanico de peldaños de piedra?",
+      "options": [
+        "Completamente recta con barandilla de hierro",
+        "Semicircular en abanico",
+        "En espiral de caracol suspendida"
+      ],
+      "correctIndex": 1
+    }
   }
-}
 ]

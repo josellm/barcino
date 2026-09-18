@@ -192,7 +192,7 @@ body {
 .parchment-content {
   position: absolute;
   top: 18%;
-  left: 8%;
+  left: 14%;
   width: 42%;
   height: 62%;
   display: flex;
@@ -241,6 +241,22 @@ body {
   width: 100%;
   margin-right: 0;
   margin-left: 0;
+}
+
+#mission0-screen .parchment-content .btn-maps,
+#mission0-screen .parchment-content #btn-arrived-passatge {
+  align-self: center;
+  width: fit-content;
+  min-width: 0;
+  max-width: 100%;
+  padding: 10px 20px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#mission0-screen .parchment-content .btn-maps {
+  margin-bottom: 0.75rem;
 }
 
 /* Mobile readability — reposition parchment overlay on small screens */
@@ -300,7 +316,7 @@ body {
   left: 0;
   right: 0;
   z-index: 10000;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: transparent;
   display: flex;
   justify-content: space-between;
   padding: 10px;
@@ -420,6 +436,25 @@ body {
   pointer-events: auto;
 }
 
+#stage-screen .stage-dispatch .cta-button {
+  width: fit-content;
+  min-width: 0;
+  max-width: 100%;
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+#stage-screen .stage-dispatch .btn-maps {
+  align-self: center;
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: 0.75rem;
+  padding: 10px 20px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  text-align: center;
+}
+
 #stage-screen .stage-dispatch a {
   pointer-events: auto;
 }
@@ -474,6 +509,7 @@ body {
 
 .witness-dialogue-box .witness-dialogue {
   margin: 0.75rem 0 1rem;
+  white-space: pre-line;
 }
 
 .witness-feedback {

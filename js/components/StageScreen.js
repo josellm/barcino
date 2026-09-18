@@ -33,6 +33,74 @@ async function loadStageData(stageNumber) {
   return data;
 }
 
+// Calculate the distance in meters between two geographic points.
+function getDistanceInMeters(lat1, lon1, lat2, lon2) {
+  const earthRadius = 6371e3;
+  const radians = Math.PI / 180;
+  const deltaLat = (lat2 - lat1) * radians;
+  const deltaLon = (lon2 - lon1) * radians;
+
+  const a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+    Math.cos(lat1 * radians) * Math.cos(lat2 * radians) *
+    Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return earthRadius * c;
+}
+
+// Verify the user's location. GPS errors are non-blocking so the game remains playable.
+function verifyLocation(targetStage, onSuccess, onOutside) {
+  if (!navigator.geolocation || !targetStage.coordinates) {
+    onSuccess();
+    return;
+  }
+
+  let settled = false;
+
+  function succeed() {
+    if (settled) {
+      return;
+    }
+    settled = true;
+    onSuccess();
+  }
+
+  function rejectOutside(message) {
+    if (settled) {
+      return;
+    }
+    settled = true;
+    onOutside(message);
+  }
+
+  try {
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        const userLat = position.coords.latitude;
+        const userLng = position.coords.longitude;
+        const coordinates = targetStage.coordinates;
+        const distance = getDistanceInMeters(
+          userLat,
+          userLng,
+          coordinates.lat,
+          coordinates.lng
+        );
+
+        if (distance <= coordinates.radiusMeters) {
+          succeed();
+        } else {
+          rejectOutside('Aún estás a ' + Math.round(distance) + ' metros del objetivo. ¡Acércate más!');
+        }
+      },
+      function () {
+        succeed();
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  } catch (error) {
+    succeed();
+  }
+}
+
 /**
  * Build and return the stage screen <main> element.
  *
@@ -55,11 +123,11 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
   const title = document.createElement('h1');
   title.className = 'stage-title';
   title.textContent = stageData.name;
-  scene.appendChild(title);
 
   if (stageData.dispatchText) {
     const dispatch = document.createElement('div');
     dispatch.className = 'stage-dispatch parchment-content';
+    dispatch.appendChild(title);
 
     const dispatchText = document.createElement('p');
     dispatchText.textContent = stageData.dispatchText;
@@ -86,11 +154,32 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
             ? '¡Hemos llegado al Bosc de les Fades!'
             : '¡Estamos en la Plaça del Rei!';
     arrivedButton.addEventListener('click', function () {
-      dispatch.remove();
+      arrivedButton.disabled = true;
+      verifyLocation(
+        stageData,
+        function () {
+          dispatch.remove();
+        },
+        function (message) {
+          arrivedButton.disabled = false;
+          const locationError = dispatch.querySelector('.location-error');
+          if (locationError) {
+            locationError.textContent = message;
+            return;
+          }
+
+          const error = document.createElement('p');
+          error.className = 'location-error error';
+          error.textContent = message;
+          dispatch.appendChild(error);
+        }
+      );
     });
     dispatch.appendChild(arrivedButton);
 
     scene.appendChild(dispatch);
+  } else {
+    scene.appendChild(title);
   }
 
   const phaseContainer = document.createElement('div');
@@ -100,6 +189,7 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
   // Internal phase state
   let phase = 1;
   let feedback = '';
+  let truthfulWitness = null;
 
   // --- Phase 1: Interrogation ---
   function renderPhase1() {
@@ -156,11 +246,17 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
     btn.addEventListener('click', function () {
       if (witness.type === 'true') {
         feedback = '';
+        truthfulWitness = witness;
         phase = stageData.type === 'rest_stop' ? 3 : 2;
+        renderPhase();
       } else {
         feedback = 'Esa testigo no es fiable. Intenta de nuevo.';
+        dialogueEl.textContent = witness.followUpDialogue + '\n\n' + feedback;
+        btn.textContent = 'Cerrar';
+        btn.onclick = function () {
+          dialogue.remove();
+        };
       }
-      renderPhase();
     });
     dialogue.appendChild(btn);
 
@@ -236,6 +332,18 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
     return content;
   }
 
+  function renderPhaseFeedback() {
+    const existingFeedback = phaseContainer.querySelector('.witness-feedback');
+    if (existingFeedback) {
+      existingFeedback.remove();
+    }
+
+    const warning = document.createElement('p');
+    warning.className = 'witness-feedback error';
+    warning.textContent = feedback;
+    phaseContainer.appendChild(warning);
+  }
+
   // --- Phase 3: Stage Complete ---
   function renderPhase3() {
     const content = document.createElement('div');
@@ -243,7 +351,9 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
 
     if (stageData.type === 'rest_stop') {
       const narrative = document.createElement('p');
-      narrative.textContent = stageData.witnesses[0].dialogue;
+      narrative.textContent = truthfulWitness && truthfulWitness.followUpDialogue
+        ? truthfulWitness.followUpDialogue
+        : stageData.witnesses[0].dialogue;
       content.appendChild(narrative);
 
       const nextButton = document.createElement('button');
@@ -313,6 +423,13 @@ function renderStageScreen(stageNumber, stageData, onStageComplete) {
 
     const gemName = document.createElement('p');
     gemName.textContent = stageData.gemName;
+
+    if (truthfulWitness && truthfulWitness.followUpDialogue) {
+      const followUp = document.createElement('p');
+      followUp.className = 'witness-dialogue follow-up-dialogue';
+      followUp.textContent = truthfulWitness.followUpDialogue;
+      messageBox.appendChild(followUp);
+    }
 
     const continueBtn = document.createElement('button');
     continueBtn.type = 'button';
